@@ -40,33 +40,6 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
-
-  /* Custom --- */
-  /* Animation durations */
-  --animation-duration-fast: 0.15s;
-  --animation-duration-normal: 0.3s;
-  --animation-duration-slow: 0.5s;
-  --animation-duration-very-slow: 0.8s;
-
-  /*
-     * function-specific color system
-     * These colors are named based on their semantic meaning in functions:
-     * - function-input: For input/request data (blue)
-     * - function-output: For output/response data (green)
-     * - function-error: For error/exception data (red)
-     */
-  --function-input: oklch(0.645 0.246 264.376); /* Blue for input/request elements */
-  --function-input-foreground: oklch(0.95 0.02 264.376);
-  --function-warning: oklch(0.828 0.189 84.429); /* Yellow for warnings */
-  --function-warning-foreground: oklch(0.95 0.02 84.429);
-  --function-error: oklch(0.577 0.245 27.325); /* Red for error/exception elements */
-  --function-error-foreground: oklch(0.95 0.02 27.325);
-  --function-output: oklch(0.577 0.187 142.48); /* Softer green for output/response elements */
-  --function-output-foreground: oklch(0.98 0.02 142.48);
-  --function-highlight: oklch(0.769 0.188 70.08); /* Amber for highlights */
-  --function-highlight-foreground: oklch(0.1 0.02 70.08);
-  --function-name: oklch(0.627 0.265 303.9); /* Purple for function names and special elements */
-  --function-name-foreground: oklch(0.95 0.02 303.9);
 }
 
 .dark {
@@ -102,21 +75,6 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(0.269 0 0);
   --sidebar-ring: oklch(0.439 0 0);
-
-  /* Custom --- */
-  /* function colors - dark mode versions */
-  --function-input: oklch(0.488 0.243 264.376); /* Darker blue for input/request elements */
-  --function-input-foreground: oklch(0.9 0.02 264.376);
-  --function-warning: oklch(0.769 0.188 70.08); /* Yellow for warnings */
-  --function-warning-foreground: oklch(0.95 0.02 70.08);
-  --function-error: oklch(0.577 0.245 27.325); /* Red for error/exception elements */
-  --function-error-foreground: oklch(0.95 0.02 27.325);
-  --function-output: oklch(0.488 0.187 142.48); /* Darker green for output/response elements */
-  --function-output-foreground: oklch(0.9 0.02 142.48);
-  --function-highlight: oklch(0.769 0.188 70.08); /* Amber for highlights */
-  --function-highlight-foreground: oklch(0.95 0.02 70.08);
-  --function-name: oklch(0.577 0.265 303.9); /* Purple for function names */
-  --function-name-foreground: oklch(0.95 0.02 303.9);
 }
 
 @theme inline {
@@ -158,20 +116,6 @@
   --color-sidebar-ring: var(--sidebar-ring);
   --animate-accordion-down: accordion-down 0.1s ease-out;
   --animate-accordion-up: accordion-up 0.1s ease-out;
-
-  /* Custom --- */
-  --color-function-input: var(--function-input);
-  --color-function-input-foreground: var(--function-input-foreground);
-  --color-function-output: var(--function-output);
-  --color-function-output-foreground: var(--function-output-foreground);
-  --color-function-highlight: var(--function-highlight);
-  --color-function-highlight-foreground: var(--function-highlight-foreground);
-  --color-function-name: var(--function-name);
-  --color-function-name-foreground: var(--function-name-foreground);
-  --color-function-warning: var(--function-warning);
-  --color-function-warning-foreground: var(--function-warning-foreground);
-  --color-function-error: var(--function-error);
-  --color-function-error-foreground: var(--function-error-foreground);
 
   @keyframes accordion-down {
     from {

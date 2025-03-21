@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "button",
+  "type": "registry:component",
+  "title": "Button",
+  "description": "A simple button component",
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "registry/new-york/components/button/component.tsx",
+      "content": "export const Button = () => {\n  // biome-ignore lint/a11y/useButtonType: <explanation>\n  return <button>Button</button>\n}\n",
+      "type": "registry:component"
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "name": "vibe-ui",
+  "homepage": "https://vibe-ui.com",
+  "items": [
+    {
+      "name": "button",
+      "type": "registry:component",
+      "title": "Button",
+      "description": "A simple button component",
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "registry/button/component.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "calendar",
+      "type": "registry:component",
+      "title": "Calendar",
+      "description": "A simple calendar component",
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "registry/calendar/component.tsx",
+          "type": "registry:component"
+        }
+      ]
+    }
+  ]
+}

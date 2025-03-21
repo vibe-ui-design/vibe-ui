@@ -12,6 +12,9 @@ import baseConfig from '@acme/next-config/base'
 const nextConfig = {
   ...baseConfig,
   transpilePackages: ['@acme/api', '@acme/db', '@acme/ui', '@acme/validators'],
+  outputFileTracingIncludes: {
+    registry: ['./registry/**/*'],
+  },
 }
 
 export default nextConfig

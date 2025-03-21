@@ -1,0 +1,13 @@
+{
+  "name": "button",
+  "type": "registry:component",
+  "title": "Button",
+  "description": "A simple button component",
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "registry/button/component.tsx",
+      "type": "registry:component"
+    }
+  ]
+}

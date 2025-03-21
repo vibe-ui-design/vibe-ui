@@ -4,6 +4,7 @@
     "baseUrl": ".",
     "paths": {
       "~/*": ["./src/*"],
+      "registry.json": ["./registry.json"],
       "@acme/ui/*": ["../../packages/ui/src/*"]
     },
     "plugins": [{ "name": "next" }],
@@ -14,7 +15,8 @@
     "next.config.ts",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    "create-registry-json.ts"
   ],
   "exclude": ["node_modules"]
 }

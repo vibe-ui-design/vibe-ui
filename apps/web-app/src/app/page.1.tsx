@@ -1,6 +1,6 @@
+import { getApi } from '@acme/api/server'
 import { H1, P } from '@acme/ui/custom/typography'
 import { Skeleton } from '@acme/ui/skeleton'
-import { OpenInV0Button } from '~/components/open-in-v0-button'
 
 function MapsSkeleton() {
   return (
@@ -31,19 +31,17 @@ function MapsSkeleton() {
 }
 
 export default async function Page() {
-  // const api = await getApi()
-  // void api.user.all.prefetch()
+  const api = await getApi()
+  void api.user.all.prefetch()
 
   return (
     <main className="container py-16">
       <div className="flex flex-col gap-8">
         <div className="flex flex-col items-center justify-center gap-4 text-center">
-          <H1>VibeUI</H1>
+          <H1>Amarix</H1>
           <P className="text-muted-foreground">
-            VibeUI is a modern, accessible UI component library built with React
-            and Tailwind
+            Amarix is a map gallery for the Amarix game.
           </P>
-          <OpenInV0Button name="button" />
         </div>
 
         {/* <Suspense fallback={<MapsSkeleton />}> */}

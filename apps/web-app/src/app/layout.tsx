@@ -15,24 +15,24 @@ import '@acme/ui/globals.css'
 import { ClerkProvider } from '@clerk/nextjs'
 
 import { TRPCReactProvider } from '@acme/api/client'
-
-import { AppSidebar } from '~/components/app-sidebar'
 import { env } from '~/env.server'
 
 export const metadata: Metadata = {
-  description: 'ShelterBuddy is a tool for shelters to manage their animals',
+  description:
+    'VibeUI is a modern, accessible UI component library built with React and Tailwind',
   metadataBase: new URL(
     env.VERCEL_ENV === 'production'
-      ? 'https://shelterbuddy.vercel.app'
+      ? 'https://vibe-ui.vercel.app'
       : 'http://localhost:3000',
   ),
   openGraph: {
-    description: 'ShelterBuddy is a tool for shelters to manage their animals',
-    siteName: 'ShelterBuddy',
-    title: 'ShelterBuddy',
-    url: 'https://shelterbuddy.vercel.app',
+    description:
+      'VibeUI is a modern, accessible UI component library built with React and Tailwind',
+    siteName: 'VibeUI',
+    title: 'VibeUI',
+    url: 'https://vibe-ui.vercel.app',
   },
-  title: 'ShelterBuddy',
+  title: 'VibeUI',
   twitter: {
     card: 'summary_large_image',
     creator: '@seawatts',
@@ -70,7 +70,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
                   enableSystem
                 >
                   <SidebarProvider defaultOpen={defaultOpen}>
-                    <AppSidebar />
+                    {/* <AppSidebar /> */}
                     <main className="flex-1">{props.children}</main>
                   </SidebarProvider>
                   <Toaster />
