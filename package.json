@@ -25,6 +25,7 @@
     "bump-versions": "pnpm changeset version && pnpm install",
     "clean": "git clean -xdf node_modules",
     "clean:ws": "turbo run clean",
+    "create-registry": "turbo run create-registry -F @acme/scripts",
     "db:gen-migration": "turbo -F @acme/db gen-migration",
     "db:migrate": "turbo -F @acme/db migrate",
     "db:push": "turbo -F @acme/db push",
