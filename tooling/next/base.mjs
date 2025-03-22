@@ -12,6 +12,9 @@ const nextConfig = {
   eslint: { ignoreDuringBuilds: true },
   experimental: {
     scrollRestoration: true,
+    webpackBuildWorker: true,
+    parallelServerBuildTraces: true,
+    parallelServerCompiles: true,
     typedRoutes: true,
     // dynamicIO: true,
     serverActions: {
