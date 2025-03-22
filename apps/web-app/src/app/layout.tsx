@@ -1,4 +1,5 @@
 import { ReactScan } from '@acme/ui/custom/react-scan'
+import { TailwindIndicator } from '@acme/ui/custom/tailwind-indicator'
 import { GeistMono } from 'geist/font/mono'
 import { GeistSans } from 'geist/font/sans'
 import type { Metadata, Viewport } from 'next'
@@ -56,7 +57,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
     <html lang="en" suppressHydrationWarning>
       <body
         className={cn(
-          'bg-background text-foreground relative min-h-screen font-sans antialiased',
+          'min-h-screen font-sans antialiased w-full mx-auto scroll-smooth',
           GeistSans.variable,
           GeistMono.variable,
         )}
@@ -76,6 +77,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
                     <main className="flex-1">{props.children}</main>
                   </SidebarProvider>
                   <Toaster />
+                  <TailwindIndicator />
                 </ThemeProvider>
               </AnalyticsProviders>
             </ClerkProvider>
