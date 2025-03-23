@@ -15,9 +15,9 @@ interface NavItem {
 }
 
 const navItems: NavItem[] = [
-  { text: 'Components', href: '/docs/components' },
+  { text: 'Components', href: '/components' },
   { text: 'Templates', href: '/templates' },
-  { text: 'Pricing', href: '/pricing' },
+  { text: 'Pricing', href: '#pricing' },
 ]
 
 export function Header() {
@@ -98,7 +98,7 @@ export function Header() {
 
             <div className="hidden md:flex items-center gap-4">
               <Button asChild className="rounded-xl">
-                <Link href="/docs">Build with AI</Link>
+                <Link href="/build">Build with AI</Link>
               </Button>
             </div>
 
