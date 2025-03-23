@@ -5,11 +5,8 @@ import {
   ExternalLink,
   File,
   Folder,
-  Settings2,
-  X,
 } from 'lucide-react'
 import type * as React from 'react'
-import { useState } from 'react'
 
 import { Button } from '@acme/ui/button'
 import {
@@ -21,24 +18,22 @@ import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
-  SidebarHeader,
   SidebarMenu,
   SidebarMenuBadge,
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarMenuSub,
-  SidebarRail,
 } from '@acme/ui/sidebar'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@acme/ui/tabs'
 import { ThemePreview } from '~/components/theme-preview'
 import { ThemeSelector } from '~/components/theme-selector'
-import type {
-  BorderRadius,
-  ColorTheme,
-  ThemeMode,
-} from '~/components/theme-selector'
+import type { ColorTheme } from '../store'
+import { useComponentStore } from '../store'
 
 // This is sample data.
+type FileTreeDirectory = [string, ...(string | FileTreeDirectory)[]]
+type FileTreeItem = string | FileTreeDirectory
+
 const data = {
   changes: [
     {
@@ -79,7 +74,7 @@ const data = {
     'tailwind.config.js',
     'package.json',
     'README.md',
-  ],
+  ] as FileTreeItem[],
 }
 
 const defaultTheme = {
@@ -95,38 +90,35 @@ export function FileSidebar({
 }: React.ComponentProps<typeof Sidebar> & {
   onClose?: () => void
 }) {
-  const [selectedTheme, setSelectedTheme] = useState<ColorTheme>(defaultTheme)
-  const [selectedMode, setSelectedMode] = useState<ThemeMode>('dark')
-  const [borderRadius, setBorderRadius] = useState<BorderRadius>('0.5')
-  const [customPrimaryColor, setCustomPrimaryColor] = useState(
-    defaultTheme.primaryColor,
+  const selectedComponents = useComponentStore(
+    (state) => state.selectedComponents,
   )
-  const [customSecondaryColor, setCustomSecondaryColor] = useState(
-    defaultTheme.secondaryColor,
-  )
-  const [isUsingCustomColors, setIsUsingCustomColors] = useState(false)
+  const theme = useComponentStore((state) => state.theme)
+  const setTheme = useComponentStore((state) => state.setTheme)
+  const setThemeMode = useComponentStore((state) => state.setThemeMode)
+  const setBorderRadius = useComponentStore((state) => state.setBorderRadius)
+  const setCustomColors = useComponentStore((state) => state.setCustomColors)
+
+  if (selectedComponents.length === 0) {
+    return null
+  }
 
   const handleThemeChange = (theme: ColorTheme) => {
-    setSelectedTheme(theme)
-    setCustomPrimaryColor(theme.primaryColor)
-    setCustomSecondaryColor(theme.secondaryColor)
-    setIsUsingCustomColors(false)
+    setTheme(theme)
   }
 
   const handleCustomColorsChange = (primary: string, secondary: string) => {
-    setCustomPrimaryColor(primary)
-    setCustomSecondaryColor(secondary)
-    setIsUsingCustomColors(true)
+    setCustomColors(primary, secondary)
   }
 
   const currentTheme = {
-    ...selectedTheme,
-    primaryColor: isUsingCustomColors
-      ? customPrimaryColor
-      : selectedTheme.primaryColor,
-    secondaryColor: isUsingCustomColors
-      ? customSecondaryColor
-      : selectedTheme.secondaryColor,
+    ...theme.selectedTheme,
+    primaryColor: theme.isUsingCustomColors
+      ? theme.customPrimaryColor
+      : theme.selectedTheme.primaryColor,
+    secondaryColor: theme.isUsingCustomColors
+      ? theme.customSecondaryColor
+      : theme.selectedTheme.secondaryColor,
   }
 
   const handleDownload = () => {
@@ -140,11 +132,11 @@ export function FileSidebar({
   return (
     <Sidebar
       side="right"
-      className="flex h-screen w-96 flex-col"
+      className="flex h-screen w-96 flex-col sticky top-0"
       collapsible="none"
       {...props}
     >
-      <SidebarHeader className="flex shrink-0 items-center justify-between border-b border-neutral-800 px-4 py-3">
+      {/* <SidebarHeader className="flex shrink-0 items-center justify-between  px-4 py-3">
         <div className="flex items-center gap-2">
           <Settings2 className="h-5 w-5 text-neutral-400" />
           <span className="font-semibold">Project Settings</span>
@@ -160,10 +152,10 @@ export function FileSidebar({
             <span className="sr-only">Close settings</span>
           </Button>
         )}
-      </SidebarHeader>
+      </SidebarHeader> */}
       <Tabs defaultValue="theme" className="flex-1 overflow-hidden">
         <div className="flex h-full flex-col">
-          <div className="border-b border-neutral-800 px-4 py-2">
+          <div className="px-4 py-2">
             <TabsList className="w-full">
               <TabsTrigger value="theme" className="flex-1">
                 Theme
@@ -177,11 +169,11 @@ export function FileSidebar({
             <TabsContent value="theme" className="m-0 h-full">
               <div className="space-y-4 p-4">
                 <ThemeSelector
-                  selectedTheme={selectedTheme}
-                  selectedMode={selectedMode}
-                  borderRadius={borderRadius}
+                  selectedTheme={theme.selectedTheme}
+                  selectedMode={theme.selectedMode}
+                  borderRadius={theme.borderRadius}
                   onThemeChange={handleThemeChange}
-                  onModeChange={setSelectedMode}
+                  onModeChange={setThemeMode}
                   onBorderRadiusChange={setBorderRadius}
                   onCustomColorsChange={handleCustomColorsChange}
                 />
@@ -189,8 +181,8 @@ export function FileSidebar({
                   <div className="text-sm font-medium">Preview</div>
                   <ThemePreview
                     theme={currentTheme}
-                    mode={selectedMode}
-                    borderRadius={borderRadius}
+                    mode={theme.selectedMode}
+                    borderRadius={theme.borderRadius}
                   />
                 </div>
               </div>
@@ -221,8 +213,8 @@ export function FileSidebar({
           </SidebarContent>
         </div>
       </Tabs>
-      <SidebarFooter className="shrink-0 border-t border-neutral-800">
-        <div className="grid grid-cols-2 gap-2 p-4">
+      <SidebarFooter>
+        <div className="grid grid-cols-2 gap-2">
           <Button
             variant="outline"
             className="w-full border-neutral-800"
@@ -240,12 +232,9 @@ export function FileSidebar({
           </Button>
         </div>
       </SidebarFooter>
-      <SidebarRail />
     </Sidebar>
   )
 }
-
-type FileTreeItem = string | [string, ...(string | [string, ...any[]])[]]
 
 function Tree({ item }: { item: FileTreeItem }) {
   const [name, ...items] = Array.isArray(item) ? item : [item]
