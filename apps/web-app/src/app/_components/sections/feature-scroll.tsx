@@ -3,25 +3,58 @@
 import { easeOutCubic } from '@acme/ui/lib/animation'
 import { motion, useScroll, useTransform } from 'motion/react'
 import { useRef } from 'react'
+import { ShowcaseCard } from '~/components/showcase-marquee-advanced'
 import { Section } from '../section'
 
+interface ShowcaseItem {
+  name: string
+  url: string
+  description: string
+  image: string
+  accentColor?: string
+}
+
+const showcaseItems: ShowcaseItem[] = [
+  {
+    name: 'startup.io',
+    url: 'https://startup.io',
+    description: 'Series A, raised $5M',
+    image: '/Device-6.png',
+    accentColor: '#4a1d96',
+  },
+  {
+    name: 'acme.co',
+    url: 'https://acme.co',
+    description: 'Enterprise Solutions',
+    image: '/Device-7.png',
+    accentColor: '#2a3f5e',
+  },
+  {
+    name: 'freelancer.dev',
+    url: 'https://freelancer.dev',
+    description: 'Connecting with developers',
+    image: '/Device-8.png',
+    accentColor: '#1a2b4b',
+  },
+]
+
 export function FeatureScroll() {
-  const phone1Ref = useRef(null)
-  const phone2Ref = useRef(null)
-  const phone3Ref = useRef(null)
+  const card1Ref = useRef(null)
+  const card2Ref = useRef(null)
+  const card3Ref = useRef(null)
 
   const { scrollYProgress: scrollYProgress1 } = useScroll({
-    target: phone1Ref,
+    target: card1Ref,
     offset: ['start end', 'end start'],
   })
 
   const { scrollYProgress: scrollYProgress2 } = useScroll({
-    target: phone2Ref,
+    target: card2Ref,
     offset: ['start end', 'end start'],
   })
 
   const { scrollYProgress: scrollYProgress3 } = useScroll({
-    target: phone3Ref,
+    target: card3Ref,
     offset: ['start end', 'end start'],
   })
 
@@ -38,32 +71,28 @@ export function FeatureScroll() {
   return (
     <Section
       id="feature-scroll"
-      title="Experience"
-      subtitle="An app unlike any other"
-      className="container px-4 sm:px-10"
+      title="Showcase"
+      subtitle="Companies building with VibeUI"
+      className="container"
+      // align="center"
     >
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mx-auto select-none">
-        <motion.img
-          ref={phone1Ref}
-          src="/Device-6.png"
-          alt="iPhone 1"
-          className="w-full h-auto -z-10 max-w-[250px] sm:max-w-[300px] mx-auto"
-          style={{ y: y1 }}
-        />
-        <motion.img
-          ref={phone2Ref}
-          src="/Device-7.png"
-          alt="iPhone 2"
-          className="w-full h-auto -z-10 max-w-[250px] sm:max-w-[300px] mx-auto"
-          style={{ y: y2 }}
-        />
-        <motion.img
-          ref={phone3Ref}
-          src="/Device-8.png"
-          alt="iPhone 3"
-          className="w-full h-auto -z-10 max-w-[250px] sm:max-w-[300px] mx-auto"
-          style={{ y: y3 }}
-        />
+      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 place-items-center">
+          {showcaseItems.map((item, index) => {
+            const ref = [card1Ref, card2Ref, card3Ref][index]
+            const y = [y1, y2, y3][index]
+            return (
+              <motion.div
+                key={item.name}
+                ref={ref}
+                style={{ y }}
+                className="w-[400px] shrink-0"
+              >
+                <ShowcaseCard item={item} />
+              </motion.div>
+            )
+          })}
+        </div>
       </div>
     </Section>
   )

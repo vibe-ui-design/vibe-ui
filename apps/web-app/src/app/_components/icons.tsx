@@ -1,24 +1,43 @@
-type IconProps = React.HTMLAttributes<SVGElement>;
+type IconProps = React.HTMLAttributes<SVGElement>
+
+import { cn } from '@acme/ui/lib/utils'
+import { cva } from 'class-variance-authority'
+
+const logoVariants = cva(
+  'bg-gradient-to-br from-primary-brand to-primary-secondary flex items-center justify-center text-mono text-secondary-foreground font-bold',
+  {
+    defaultVariants: {
+      size: 'default',
+      variant: 'default',
+    },
+    variants: {
+      size: {
+        '2xl': 'size-20 text-7xl',
+        default: 'size-8 text-xl',
+        lg: 'size-12 text-2xl',
+        sm: 'size-6 text-lg',
+        xl: 'size-16 text-2xl',
+        xs: 'size-4 text-base',
+      },
+      variant: {
+        default: 'rounded-xl',
+        hero: 'rounded-3xl shadow-md',
+        primary: 'rounded-xl',
+      },
+    },
+  },
+)
+
+export interface LogoProps extends React.HTMLAttributes<HTMLSpanElement> {
+  size?: 'xs' | 'sm' | 'default' | 'lg' | 'xl' | '2xl'
+  variant?: 'default' | 'hero' | 'primary'
+}
 
 export const Icons = {
-  logo: (props: IconProps) => (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      {...props}
-    >
-      <path d="M8 2v4"></path>
-      <path d="M16 2v4"></path>
-      <rect width="18" height="18" x="3" y="4" rx="2"></rect>
-      <path d="M3 10h18"></path>
-    </svg>
+  logo: ({ size, variant, className, ...props }: LogoProps) => (
+    <span className={cn(logoVariants({ size, variant }), className)} {...props}>
+      V
+    </span>
   ),
   twitter: (props: IconProps) => (
     <svg
@@ -137,4 +156,4 @@ export const Icons = {
       <path d="M21 12a9 9 0 1 1-6.219-8.56" />
     </svg>
   ),
-};
+}

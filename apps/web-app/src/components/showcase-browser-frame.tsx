@@ -37,7 +37,7 @@ export function BrowserFrame({
 
       {/* Content */}
       <div
-        className="relative h-[200px] w-full"
+        className="relative aspect-[16/10] w-full"
         style={accentColor ? { backgroundColor: accentColor } : undefined}
       >
         <Image

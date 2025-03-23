@@ -5,226 +5,227 @@ import {
   ClockIcon,
   CloudIcon,
   UsersIcon,
-} from "lucide-react";
+} from 'lucide-react'
 
-export const BLUR_FADE_DELAY = 0.15;
+export const BLUR_FADE_DELAY = 0.15
 
 export const siteConfig = {
-  name: "Cal AI",
-  description: "Smart scheduling powered by AI.",
-  cta: "Get Started",
-  url: process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000",
+  name: 'Vibe UI',
+  description:
+    'A modern, responsive, and accessible UI library for your next project.',
+  cta: 'Get Started',
+  url: process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000',
   keywords: [
-    "AI Calendar",
-    "Smart Scheduling",
-    "Productivity",
-    "Time Management",
+    'UI Components',
+    'React',
+    'TypeScript',
+    'Tailwind CSS',
+    'Shadcn UI',
+    'Radix UI',
   ],
   links: {
-    email: "support@calai.app",
-    twitter: "https://twitter.com/calaiapp",
-    discord: "https://discord.gg/calaiapp",
-    github: "https://github.com/calaiapp",
-    instagram: "https://instagram.com/calaiapp",
+    email: 'support@vibe-ui.com',
+    twitter: 'https://twitter.com/vibe_ui',
+    discord: 'https://discord.gg/vibe-ui',
+    github: 'https://github.com/vibe-ui-design/vibe-ui',
   },
   features: [
     {
-      name: "AI-Powered Scheduling",
+      name: 'Beautiful Components',
       description:
-        "Intelligent scheduling that learns your preferences and optimizes your time.",
+        'A comprehensive set of pre-built, customizable UI components.',
       icon: <BrainIcon className="h-6 w-6" />,
     },
     {
-      name: "Smart Time Blocking",
+      name: 'Motion Effects',
       description:
-        "Automatically block time for focused work and personal activities.",
+        'Smooth animations and transitions for enhanced user experience.',
       icon: <ClockIcon className="h-6 w-6" />,
     },
     {
-      name: "Predictive Event Planning",
+      name: 'Accessibility First',
       description:
-        "AI suggests optimal times for meetings and events based on your habits.",
+        'ARIA compliant components that work for everyone, out of the box.',
       icon: <CalendarIcon className="h-6 w-6" />,
     },
     {
-      name: "Cloud Sync",
-      description: "Access your schedule across all devices in real-time.",
+      name: 'Modern Stack',
+      description: 'Built with React, TypeScript, and Tailwind CSS.',
       icon: <CloudIcon className="h-6 w-6" />,
     },
     {
-      name: "Team Collaboration",
-      description: "Easily coordinate schedules with team members and clients.",
+      name: 'Developer Experience',
+      description: 'Intuitive APIs with excellent TypeScript support.',
       icon: <UsersIcon className="h-6 w-6" />,
     },
     {
-      name: "Smart Reminders",
-      description:
-        "Contextual notifications that adapt to your schedule and priorities.",
+      name: 'Theme Support',
+      description: 'Easy customization with CSS variables and design tokens.',
       icon: <BellIcon className="h-6 w-6" />,
     },
   ],
   featureHighlight: [
     {
-      title: "AI-Powered Scheduling",
+      title: 'Beautiful Components',
       description:
-        "Intelligent scheduling that learns your preferences and optimizes your time.",
-      imageSrc: "/Device-2.png",
-      direction: "rtl" as const,
+        'A comprehensive set of pre-built, customizable UI components that look great out of the box.',
+      imageSrc: '/Device-2.png',
+      direction: 'rtl' as const,
     },
     {
-      title: "Smart Time Blocking",
+      title: 'Motion Effects',
       description:
-        "Automatically block time for focused work and personal activities.",
-      imageSrc: "/Device-3.png",
-      direction: "ltr" as const,
+        'Add life to your interfaces with smooth animations and transitions.',
+      imageSrc: '/Device-3.png',
+      direction: 'ltr' as const,
     },
     {
-      title: "Predictive Event Planning",
+      title: 'Developer Experience',
       description:
-        "AI suggests optimal times for meetings and events based on your habits.",
-      imageSrc: "/Device-4.png",
-      direction: "rtl" as const,
+        'Built with TypeScript and modern best practices for a great development experience.',
+      imageSrc: '/Device-4.png',
+      direction: 'rtl' as const,
     },
   ],
   bento: [
     {
-      title: "AI-Powered Scheduling",
+      title: 'Beautiful Components',
       content:
-        "Our app uses advanced AI to optimize your calendar, suggesting the best times for meetings and tasks based on your preferences and habits.",
-      imageSrc: "/Device-1.png",
-      imageAlt: "AI scheduling illustration",
+        'A comprehensive set of pre-built UI components that are accessible, customizable, and beautiful out of the box.',
+      imageSrc: '/Device-1.png',
+      imageAlt: 'UI Components illustration',
       fullWidth: true,
     },
     {
-      title: "Smart Time Blocking",
+      title: 'Motion Effects',
       content:
-        "Automatically block out time for focused work, breaks, and personal activities to maintain a balanced and productive schedule.",
-      imageSrc: "/Device-2.png",
-      imageAlt: "Time blocking illustration",
+        'Add smooth animations and transitions to your interfaces with our built-in motion library.',
+      imageSrc: '/Device-2.png',
+      imageAlt: 'Motion effects illustration',
       fullWidth: false,
     },
     {
-      title: "Intelligent Reminders",
+      title: 'Developer Experience',
       content:
-        "Receive context-aware notifications that adapt to your schedule, ensuring you never miss important events or deadlines.",
-      imageSrc: "/Device-3.png",
-      imageAlt: "Smart reminders illustration",
+        'Built with TypeScript and modern best practices, offering an excellent developer experience.',
+      imageSrc: '/Device-3.png',
+      imageAlt: 'Developer experience illustration',
       fullWidth: false,
     },
     {
-      title: "Team Collaboration",
+      title: 'Theme Support',
       content:
-        "Effortlessly coordinate schedules with team members and clients, finding optimal meeting times across different time zones.",
-      imageSrc: "/Device-4.png",
-      imageAlt: "Team collaboration illustration",
+        'Easily customize the look and feel of your components with CSS variables and design tokens.',
+      imageSrc: '/Device-4.png',
+      imageAlt: 'Theme customization illustration',
       fullWidth: true,
     },
   ],
   benefits: [
     {
       id: 1,
-      text: "Save hours each week with AI-optimized scheduling.",
-      image: "/Device-6.png",
+      text: 'Ship faster with pre-built, customizable components.',
+      image: '/Device-6.png',
     },
     {
       id: 2,
-      text: "Reduce scheduling conflicts and double-bookings.",
-      image: "/Device-7.png",
+      text: 'Ensure accessibility compliance out of the box.',
+      image: '/Device-7.png',
     },
     {
       id: 3,
-      text: "Improve work-life balance with smart time allocation.",
-      image: "/Device-8.png",
+      text: 'Create beautiful, consistent interfaces with ease.',
+      image: '/Device-8.png',
     },
     {
       id: 4,
-      text: "Increase productivity with AI-driven time management insights.",
-      image: "/Device-1.png",
+      text: 'Improve development velocity with great DX.',
+      image: '/Device-1.png',
     },
   ],
   pricing: [
     {
-      name: "Basic",
-      href: "#",
-      price: "$0",
-      period: "month",
-      yearlyPrice: "$0",
+      name: 'Open Source',
+      href: '#',
+      price: '$0',
+      period: 'forever',
+      yearlyPrice: '$0',
       features: [
-        "AI-powered scheduling (up to 10 events/month)",
-        "Basic time blocking",
-        "Cloud sync for 1 device",
-        "Email reminders",
+        'All components',
+        'TypeScript support',
+        'Theme customization',
+        'Community support',
       ],
-      description: "Perfect for individual users",
-      buttonText: "Start Free",
+      description: 'Perfect for open source projects',
+      buttonText: 'Get Started',
       isPopular: false,
     },
     {
-      name: "Pro",
-      href: "#",
-      price: "$12",
-      period: "month",
-      yearlyPrice: "$120",
+      name: 'Pro',
+      href: '#',
+      price: '$99',
+      period: 'year',
+      yearlyPrice: '$99',
       features: [
-        "Unlimited AI-powered scheduling",
-        "Advanced time blocking and analysis",
-        "Cloud sync for unlimited devices",
-        "Smart notifications across all devices",
-        "Team collaboration features",
+        'Everything in Open Source',
+        'Premium components',
+        'Priority support',
+        'Private Slack channel',
+        'Early access to new features',
       ],
-      description: "Ideal for professionals and small teams",
-      buttonText: "Upgrade to Pro",
+      description: 'For professional developers and teams',
+      buttonText: 'Upgrade to Pro',
       isPopular: true,
     },
   ],
   faqs: [
     {
-      question: "How does AI improve my scheduling?",
+      question: 'How do I get started with Vibe UI?',
       answer: (
         <span>
-          Our AI analyzes your scheduling patterns, preferences, and
-          productivity data to suggest optimal times for tasks and meetings. It
-          learns from your behavior to continuously improve its recommendations.
+          Getting started is easy! Install the package via npm or yarn, import
+          the components you need, and start building. Check out our
+          comprehensive documentation for detailed guides and examples.
         </span>
       ),
     },
     {
-      question: "Can I integrate Cal AI with other apps?",
+      question: 'Is Vibe UI compatible with my tech stack?',
       answer: (
         <span>
-          Yes, Cal AI integrates with popular productivity tools and calendar
-          apps. You can sync with Google Calendar, Outlook, and more to
-          centralize your scheduling.
+          Vibe UI is built for React and works seamlessly with Next.js. It uses
+          TypeScript and Tailwind CSS, making it a perfect fit for modern web
+          development stacks.
         </span>
       ),
     },
     {
-      question: "How does the team collaboration feature work?",
+      question: 'How customizable are the components?',
       answer: (
         <span>
-          Team collaboration allows you to share availability, schedule group
-          meetings, and coordinate tasks. The AI considers everyone&apos;s
-          schedules to find the best times for team activities.
+          All components are highly customizable using CSS variables and design
+          tokens. You can easily modify colors, spacing, typography, and more to
+          match your brand.
         </span>
       ),
     },
     {
-      question: "Is my data secure with Cal AI?",
+      question: 'Is Vibe UI accessible?',
       answer: (
         <span>
-          We take data security seriously. All your calendar data is encrypted
-          end-to-end and stored securely in the cloud. We never share your
-          personal information or scheduling data with third parties.
+          Yes! Accessibility is a top priority. All components follow WCAG
+          guidelines and include proper ARIA attributes. They're regularly
+          tested with screen readers and keyboard navigation.
         </span>
       ),
     },
     {
-      question: "Can I use Cal AI offline?",
+      question: 'Can I use Vibe UI in commercial projects?',
       answer: (
         <span>
-          While full functionality requires an internet connection, you can view
-          your schedule and add events offline. The app will sync and apply AI
-          optimizations when you&apos;re back online.
+          Yes, Vibe UI is available under the MIT license. You can use it in
+          personal or commercial projects for free. The Pro version includes
+          additional features and support.
         </span>
       ),
     },
@@ -233,216 +234,80 @@ export const siteConfig = {
     {
       id: 1,
       menu: [
-        { href: "#", text: "Features" },
-        { href: "#", text: "Pricing" },
-        { href: "#", text: "About Us" },
-        { href: "#", text: "Blog" },
-        { href: "#", text: "Contact" },
+        { href: '#', text: 'Features' },
+        { href: '#', text: 'Pricing' },
+        { href: '#', text: 'About Us' },
+        { href: '#', text: 'Blog' },
+        { href: '#', text: 'Contact' },
       ],
     },
   ],
   testimonials: [
     {
       id: 1,
-      text: "Cal AI has revolutionized how I manage my time. It&apos;s like having a personal assistant.",
-      name: "Alice Johnson",
-      role: "Freelance Designer",
+      text: 'Vibe UI has revolutionized how we build interfaces. The components are beautiful and the DX is amazing.',
+      name: 'Alice Johnson',
+      role: 'Frontend Developer',
       image:
-        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8cG9ydHJhaXR8ZW58MHx8MHx8fDA%3D",
+        'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8cG9ydHJhaXR8ZW58MHx8MHx8fDA%3D',
     },
     {
       id: 2,
-      text: "The AI-powered scheduling has significantly reduced conflicts in our team&apos;s calendar.",
-      name: "Bob Brown",
-      role: "Project Manager, Tech Innovations",
+      text: 'The accessibility features have saved us countless hours of development and testing.',
+      name: 'Bob Brown',
+      role: 'UI/UX Designer',
       image:
-        "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fHBvcnRyYWl0fGVufDB8fDB8fHww",
+        'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fHBvcnRyYWl0fGVufDB8fDB8fHww',
     },
     {
       id: 3,
-      text: "The smart time blocking feature has helped me maintain a better work-life balance.",
-      name: "Charlie Davis",
-      role: "Entrepreneur",
+      text: 'The theme customization options make it easy to match our brand perfectly.',
+      name: 'Charlie Davis',
+      role: 'Product Designer',
       image:
-        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fHBvcnRyYWl0fGVufDB8fDB8fHww",
+        'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fHBvcnRyYWl0fGVufDB8fDB8fHww',
     },
     {
       id: 4,
-      text: "Cal AI's predictive planning has made my workweek so much more efficient.",
-      name: "Diana Evans",
-      role: "Marketing Director",
+      text: "Vibe UI's motion effects have added a new level of polish to our product.",
+      name: 'Diana Evans',
+      role: 'Creative Director',
       image:
-        "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mjh8fHBvcnRyYWl0fGVufDB8fDB8fHww",
+        'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mjh8fHBvcnRyYWl0fGVufDB8fDB8fHww',
     },
     {
       id: 5,
-      text: "The team collaboration features have streamlined our project management process.",
-      name: "Ethan Ford",
-      role: "Software Team Lead",
+      text: 'The TypeScript support is excellent, making it easy to catch errors early.',
+      name: 'Ethan Ford',
+      role: 'Senior Developer',
       image:
-        "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzJ8fHBvcnRyYWl0fGVufDB8fDB8fHww",
+        'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzJ8fHBvcnRyYWl0fGVufDB8fDB8fHww',
     },
     {
       id: 6,
-      text: "Cal AI has helped me balance my work and personal commitments effortlessly.",
-      name: "Fiona Grant",
-      role: "HR Manager",
+      text: 'The documentation is comprehensive and well-organized.',
+      name: 'Fiona Grant',
+      role: 'Developer Advocate',
       image:
-        "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDB8fHBvcnRyYWl0fGVufDB8fDB8fHww",
+        'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDB8fHBvcnRyYWl0fGVufDB8fDB8fHww',
     },
     {
       id: 7,
-      text: "The AI-driven insights have helped me optimize my daily routines significantly.",
-      name: "George Harris",
-      role: "Productivity Coach",
+      text: 'The community support is fantastic, and issues are resolved quickly.',
+      name: 'George Harris',
+      role: 'Open Source Contributor',
       image:
-        "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDR8fHBvcnRyYWl0fGVufDB8fDB8fHww",
+        'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDR8fHBvcnRyYWl0fGVufDB8fDB8fHww',
     },
     {
       id: 8,
-      text: "Cal AI's integration with my other tools has created a seamless workflow.",
-      name: "Hannah Irving",
-      role: "Digital Nomad",
+      text: "Vibe UI's responsive design features have made our mobile development much easier.",
+      name: 'Hannah Irving',
+      role: 'Mobile Developer',
       image:
-        "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NTJ8fHBvcnRyYWl0fGVufDB8fDB8fHww",
-    },
-    {
-      id: 9,
-      text: "The smart reminders have drastically reduced my missed appointments.",
-      name: "Ian Johnson",
-      role: "Sales Executive",
-      image:
-        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NTZ8fHBvcnRyYWl0fGVufDB8fDB8fHww",
-    },
-    {
-      id: 10,
-      text: "Cal AI's ability to learn my preferences has made scheduling a breeze.",
-      name: "Julia Kim",
-      role: "Researcher",
-      image:
-        "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NjR8fHBvcnRyYWl0fGVufDB8fDB8fHww",
-    },
-    {
-      id: 11,
-      text: "The AI-suggested meeting times have improved our team's productivity.",
-      name: "Kevin Lee",
-      role: "Operations Manager",
-      image:
-        "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Njh8fHBvcnRyYWl0fGVufDB8fDB8fHww",
-    },
-    {
-      id: 12,
-      text: "Cal AI's travel time estimations have made my commute planning much easier.",
-      name: "Laura Martinez",
-      role: "Urban Planner",
-      image:
-        "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NzJ8fHBvcnRyYWl0fGVufDB8fDB8fHww",
-    },
-    {
-      id: 13,
-      text: "The AI-powered task prioritization has helped me focus on what's truly important.",
-      name: "Michael Nelson",
-      role: "Entrepreneur",
-      image:
-        "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NzZ8fHBvcnRyYWl0fGVufDB8fDB8fHww",
-    },
-    {
-      id: 14,
-      text: "Cal AI's habit tracking feature has helped me build better routines.",
-      name: "Natalie Owens",
-      role: "Personal Trainer",
-      image:
-        "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8ODB8fHBvcnRyYWl0fGVufDB8fDB8fHww",
-    },
-    {
-      id: 15,
-      text: "The AI suggestions for breaks have improved my work-from-home productivity.",
-      name: "Oscar Parker",
-      role: "Remote Worker",
-      image:
-        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8ODR8fHBvcnRyYWl0fGVufDB8fDB8fHww",
-    },
-    {
-      id: 16,
-      text: "Cal AI's integration with my smart home devices has streamlined my mornings.",
-      name: "Patricia Quinn",
-      role: "Tech Enthusiast",
-      image:
-        "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8ODh8fHBvcnRyYWl0fGVufDB8fDB8fHww",
-    },
-    {
-      id: 17,
-      text: "The AI-driven energy level tracking has helped me schedule tasks more effectively.",
-      name: "Quincy Roberts",
-      role: "Productivity Consultant",
-      image:
-        "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OTJ8fHBvcnRyYWl0fGVufDB8fDB8fHww",
-    },
-    {
-      id: 18,
-      text: "Cal AI's goal-setting features have kept me accountable and on track.",
-      name: "Rachel Stevens",
-      role: "Life Coach",
-      image:
-        "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OTZ8fHBvcnRyYWl0fGVufDB8fDB8fHww",
-    },
-    {
-      id: 19,
-      text: "The AI-suggested focus times have dramatically improved my deep work sessions.",
-      name: "Samuel Thompson",
-      role: "Writer",
-      image:
-        "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTAwfHxwb3J0cmFpdHxlbnwwfHwwfHx8MA%3D%3D",
-    },
-    {
-      id: 20,
-      text: "Cal AI's team availability feature has made cross-timezone scheduling effortless.",
-      name: "Tina Upton",
-      role: "Global Project Coordinator",
-      image:
-        "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTA0fHxwb3J0cmFpdHxlbnwwfHwwfHx8MA%3D%3D",
-    },
-    {
-      id: 21,
-      text: "The AI-powered meeting summarizer has saved me hours of note-taking.",
-      name: "Ulysses Vaughn",
-      role: "Executive Assistant",
-      image:
-        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTA4fHxwb3J0cmFpdHxlbnwwfHwwfHx8MA%3D%3D",
-    },
-    {
-      id: 22,
-      text: "Cal AI's personalized productivity insights have been eye-opening.",
-      name: "Victoria White",
-      role: "Business Analyst",
-      image:
-        "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTEyfHxwb3J0cmFpdHxlbnwwfHwwfHx8MA%3D%3D",
-    },
-    {
-      id: 23,
-      text: "The AI-suggested networking opportunities have expanded my professional circle.",
-      name: "William Xavier",
-      role: "Startup Founder",
-      image:
-        "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTE2fHxwb3J0cmFpdHxlbnwwfHwwfHx8MA%3D%3D",
-    },
-    {
-      id: 24,
-      text: "Cal AI's integration with my fitness tracker has helped me maintain a healthier lifestyle.",
-      name: "Xena Yates",
-      role: "Wellness Coach",
-      image:
-        "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTIwfHxwb3J0cmFpdHxlbnwwfHwwfHx8MA%3D%3D",
-    },
-    {
-      id: 25,
-      text: "The AI-driven project timeline suggestions have kept our team ahead of deadlines.",
-      name: "Yannick Zimmerman",
-      role: "Project Manager",
-      image:
-        "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTI0fHxwb3J0cmFpdHxlbnwwfHwwfHx8MA%3D%3D",
+        'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NTJ8fHBvcnRyYWl0fGVufDB8fDB8fHww',
     },
   ],
-};
+}
 
-export type SiteConfig = typeof siteConfig;
+export type SiteConfig = typeof siteConfig

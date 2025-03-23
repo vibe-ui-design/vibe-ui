@@ -1,14 +1,24 @@
 'use client'
 
-import { buttonVariants } from '@acme/ui/button'
+import { Button } from '@acme/ui/button'
 import { easeInOutCubic } from '@acme/ui/lib/animation'
 import { cn } from '@acme/ui/lib/utils'
 import { AnimatePresence, motion, useAnimation } from 'framer-motion'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
-import { siteConfig } from '../config'
 import { Icons } from '../icons'
 import { MobileDrawer } from '../mobile-drawer'
+
+interface NavItem {
+  text: string
+  href: string
+}
+
+const navItems: NavItem[] = [
+  { text: 'Components', href: '/docs/components' },
+  { text: 'Templates', href: '/templates' },
+  { text: 'Pricing', href: '/pricing' },
+]
 
 export function Header() {
   const [isVisible, setIsVisible] = useState(true)
@@ -58,37 +68,49 @@ export function Header() {
             delay: isInitialLoad ? 0.5 : 0,
             ease: easeInOutCubic,
           }}
-          className={cn('sticky top-0 z-50 p-0 bg-background/60 backdrop-blur')}
+          className={cn(
+            'sticky top-0 z-50 p-0 bg-background/60 backdrop-blur w-full container',
+          )}
         >
-          <div className="flex justify-between items-center container mx-auto p-2">
+          <div className="flex justify-between items-center container mx-auto px-4 sm:px-10 py-4">
             <Link
               href="/"
-              title="brand-logo"
-              className="relative mr-6 flex items-center space-x-2"
+              title="VibeUI"
+              className="relative flex items-center gap-3"
             >
-              <Icons.logo className="w-auto" />
-              <span className="font-bold text-xl">{siteConfig.name}</span>
+              <Icons.logo />
+              <span className="font-semibold text-xl text-white">
+                vibe<span className="text-chart-5">ui</span>
+              </span>
             </Link>
-            <div className="hidden lg:block">
-              <Link
-                href="#"
-                className={cn(
-                  buttonVariants({ variant: 'default' }),
-                  'h-8 text-white rounded-full group',
-                )}
-              >
-                {siteConfig.cta}
-              </Link>
+
+            <nav className="hidden md:flex items-center gap-8">
+              {navItems.map((item) => (
+                <Link
+                  key={item.text}
+                  href={item.href}
+                  className="text-neutral-400 hover:text-white transition-colors"
+                >
+                  {item.text}
+                </Link>
+              ))}
+            </nav>
+
+            <div className="hidden md:flex items-center gap-4">
+              <Button asChild className="rounded-xl">
+                <Link href="/docs">Build with AI</Link>
+              </Button>
             </div>
-            <div className="mt-2 cursor-pointer block lg:hidden">
+
+            <div className="mt-2 cursor-pointer block md:hidden">
               <MobileDrawer />
             </div>
           </div>
-          <motion.hr
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: addBorder ? 1 : 0 }}
             transition={{ duration: 0.2, ease: 'easeInOut' }}
-            className="absolute w-full bottom-0"
+            className="absolute w-full bottom-0 border-b border-border/5"
           />
         </motion.header>
       )}

@@ -28,7 +28,7 @@ export default function ComponentsLandingPage() {
                   <Sparkles className="h-6 w-6 text-primary" />
                 </div>
                 <h2 className="text-2xl font-bold mb-3">AI Flow</h2>
-                <p className="text-neutral-400 mb-6 flex-grow">
+                <p className="text-neutral-400 mb-6 grow">
                   Describe your project or upload a screenshot, and let our AI
                   select the perfect components for you. Ideal for quick starts
                   and inspiration.
@@ -57,7 +57,7 @@ export default function ComponentsLandingPage() {
                   <Layers className="h-6 w-6 text-primary" />
                 </div>
                 <h2 className="text-2xl font-bold mb-3">Manual Selection</h2>
-                <p className="text-neutral-400 mb-6 flex-grow">
+                <p className="text-neutral-400 mb-6 grow">
                   Browse and handpick components for your project. Perfect for
                   developers who know exactly what they need or want to explore
                   all options.

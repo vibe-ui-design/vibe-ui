@@ -49,7 +49,7 @@ export default function ErrorPage({
   }
 
   return (
-    <div className="container flex items-center justify-center min-h-[80vh] px-4 py-8">
+    <div className="w-full mx-auto container flex items-center justify-center min-h-[80vh] px-4 py-8">
       <Card className="w-full max-w-2xl shadow-lg">
         <CardHeader className="space-y-1 text-center">
           <div className="flex justify-center mb-4">

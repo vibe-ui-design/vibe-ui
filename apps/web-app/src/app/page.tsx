@@ -13,7 +13,7 @@ import { Testimonials } from './_components/sections/testimonials'
 
 export default function Home() {
   return (
-    <div className="relative">
+    <div className="flex min-h-screen flex-col items-center">
       <Header />
       <Hero />
       <FeatureScroll />

@@ -1,5 +1,6 @@
 import {
   SiDiscord,
+  SiGithub,
   SiOpenai,
   SiOpenaiHex,
   SiX,
@@ -408,6 +409,9 @@ export const Icons = {
     'variant',
   ])<IconProps>(({ size, variant }) => iconVariants({ size, variant })),
   Sparkles: twx(Sparkles).transientProps(['size', 'variant'])<IconProps>(
+    ({ size, variant }) => iconVariants({ size, variant }),
+  ),
+  Github: twx(SiGithub).transientProps(['size', 'variant'])<IconProps>(
     ({ size, variant }) => iconVariants({ size, variant }),
   ),
   Spinner: twx(Loader2).transientProps(['size', 'variant'])<IconProps>(
