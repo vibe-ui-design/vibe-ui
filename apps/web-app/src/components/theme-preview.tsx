@@ -1,18 +1,23 @@
-import type {
-  BorderRadius,
-  ColorTheme,
-  ThemeMode,
-} from '~/components/theme-selector'
+import { useComponentStore } from '~/app/build/[projectId]/store'
+import { iconLibraries } from './theme-selector'
 
-interface ThemePreviewProps {
-  theme: ColorTheme
-  mode: ThemeMode
-  borderRadius: BorderRadius
-}
+export function ThemePreview() {
+  const mode = useComponentStore((state) => state.theme.selectedMode)
+  const borderRadius = useComponentStore((state) => state.theme.borderRadius)
+  const selectedIconLibrary = useComponentStore(
+    (state) => state.theme.selectedIconLibrary,
+  )
+  const theme = useComponentStore((state) =>
+    state.theme.isUsingCustomColors
+      ? {
+          primaryColor: state.theme.customPrimaryColor,
+          secondaryColor: state.theme.customSecondaryColor,
+        }
+      : state.theme.selectedTheme,
+  )
 
-export function ThemePreview({ theme, mode, borderRadius }: ThemePreviewProps) {
   // Convert border radius value to rem
-  const getBorderRadiusStyle = (value: BorderRadius) => {
+  const getBorderRadiusStyle = (value: typeof borderRadius) => {
     const radiusMap = {
       '0': '0px',
       '0.3': '0.3rem',
@@ -24,6 +29,9 @@ export function ThemePreview({ theme, mode, borderRadius }: ThemePreviewProps) {
   }
 
   const borderRadiusValue = getBorderRadiusStyle(borderRadius)
+  const selectedIcon = iconLibraries.find(
+    (lib) => lib.id === selectedIconLibrary,
+  )?.previewIcon
 
   return (
     <div className="space-y-4">
@@ -34,9 +42,13 @@ export function ThemePreview({ theme, mode, borderRadius }: ThemePreviewProps) {
             style={{ borderRadius: borderRadiusValue }}
           >
             <div
-              className="h-8 w-full"
+              className="h-8 w-full flex items-center px-3"
               style={{ backgroundColor: theme.primaryColor }}
-            ></div>
+            >
+              <div className="flex size-4 shrink-0 items-center justify-center text-white">
+                {selectedIcon}
+              </div>
+            </div>
             <div className="p-4 bg-white">
               <div
                 className="h-4 w-3/4 mb-2"
@@ -44,15 +56,15 @@ export function ThemePreview({ theme, mode, borderRadius }: ThemePreviewProps) {
                   backgroundColor: theme.secondaryColor,
                   borderRadius: borderRadiusValue,
                 }}
-              ></div>
+              />
               <div
                 className="h-4 w-1/2 mb-2 bg-neutral-200"
                 style={{ borderRadius: borderRadiusValue }}
-              ></div>
+              />
               <div
                 className="h-4 w-2/3 bg-neutral-200"
                 style={{ borderRadius: borderRadiusValue }}
-              ></div>
+              />
               <div className="mt-4 flex justify-end">
                 <div
                   className="h-8 w-24"
@@ -60,7 +72,7 @@ export function ThemePreview({ theme, mode, borderRadius }: ThemePreviewProps) {
                     backgroundColor: theme.primaryColor,
                     borderRadius: borderRadiusValue,
                   }}
-                ></div>
+                />
               </div>
             </div>
           </div>
@@ -72,9 +84,13 @@ export function ThemePreview({ theme, mode, borderRadius }: ThemePreviewProps) {
             style={{ borderRadius: borderRadiusValue }}
           >
             <div
-              className="h-8 w-full"
+              className="h-8 w-full flex items-center px-3"
               style={{ backgroundColor: theme.primaryColor }}
-            ></div>
+            >
+              <div className="flex size-4 shrink-0 items-center justify-center text-white">
+                {selectedIcon}
+              </div>
+            </div>
             <div className="p-4 bg-neutral-900">
               <div
                 className="h-4 w-3/4 mb-2"
@@ -82,15 +98,15 @@ export function ThemePreview({ theme, mode, borderRadius }: ThemePreviewProps) {
                   backgroundColor: theme.secondaryColor,
                   borderRadius: borderRadiusValue,
                 }}
-              ></div>
+              />
               <div
                 className="h-4 w-1/2 mb-2 bg-neutral-700"
                 style={{ borderRadius: borderRadiusValue }}
-              ></div>
+              />
               <div
                 className="h-4 w-2/3 bg-neutral-700"
                 style={{ borderRadius: borderRadiusValue }}
-              ></div>
+              />
               <div className="mt-4 flex justify-end">
                 <div
                   className="h-8 w-24"
@@ -98,7 +114,7 @@ export function ThemePreview({ theme, mode, borderRadius }: ThemePreviewProps) {
                     backgroundColor: theme.primaryColor,
                     borderRadius: borderRadiusValue,
                   }}
-                ></div>
+                />
               </div>
             </div>
           </div>

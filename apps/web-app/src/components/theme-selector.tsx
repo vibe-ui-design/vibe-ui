@@ -2,9 +2,22 @@
 
 import { Label } from '@acme/ui/label'
 import { cn } from '@acme/ui/lib/utils'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@acme/ui/select'
 import { ToggleGroup, ToggleGroupItem } from '@acme/ui/toggle-group'
-import { Check } from 'lucide-react'
+import { faHome } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { HomeIcon as HeroiconsHome } from '@heroicons/react/24/outline'
+import { Home as MaterialHome } from '@mui/icons-material'
+import { HomeIcon as RadixHome } from '@radix-ui/react-icons'
+import { Check, Home as LucideHome } from 'lucide-react'
 import { useState } from 'react'
+import { useComponentStore } from '~/app/build/[projectId]/store'
 import { ColorPicker } from '~/components/color-picker'
 
 export type ColorTheme = {
@@ -17,6 +30,14 @@ export type ColorTheme = {
 export type ThemeMode = 'light' | 'dark' | 'both'
 
 export type BorderRadius = '0' | '0.3' | '0.5' | '0.75' | '1'
+
+export type IconLibrary = {
+  id: string
+  name: string
+  description: string
+  npmPackage: string
+  previewIcon: React.ReactNode
+}
 
 const colorThemes: ColorTheme[] = [
   {
@@ -57,38 +78,69 @@ const colorThemes: ColorTheme[] = [
   },
 ]
 
-interface ThemeSelectorProps {
-  selectedTheme: ColorTheme
-  selectedMode: ThemeMode
-  borderRadius: BorderRadius
-  onThemeChange: (theme: ColorTheme) => void
-  onModeChange: (mode: ThemeMode) => void
-  onBorderRadiusChange: (radius: BorderRadius) => void
-  onCustomColorsChange: (primaryColor: string, secondaryColor: string) => void
-}
+const iconLibraries: IconLibrary[] = [
+  {
+    id: 'lucide',
+    name: 'Lucide',
+    description: 'Beautiful & consistent icons',
+    npmPackage: 'lucide-react',
+    previewIcon: <LucideHome className="size-4 text-white" />,
+  },
+  {
+    id: 'heroicons',
+    name: 'Heroicons',
+    description: 'By the makers of Tailwind CSS',
+    npmPackage: '@heroicons/react',
+    previewIcon: <HeroiconsHome className="size-4 text-white" />,
+  },
+  {
+    id: 'font-awesome',
+    name: 'Font Awesome',
+    description: "The web's most popular icon set",
+    npmPackage: '@fortawesome/react-fontawesome',
+    previewIcon: (
+      <FontAwesomeIcon icon={faHome} className="size-4 text-white" />
+    ),
+  },
+  {
+    id: 'material',
+    name: 'Material Icons',
+    description: "Google's Material Design icons",
+    npmPackage: '@mui/icons-material',
+    previewIcon: <MaterialHome className="size-4 text-white" />,
+  },
+  {
+    id: 'radix',
+    name: 'Radix Icons',
+    description: 'Crisp set of 15×15 icons',
+    npmPackage: '@radix-ui/react-icons',
+    previewIcon: <RadixHome className="size-4 text-white" />,
+  },
+]
 
-export function ThemeSelector({
-  selectedTheme,
-  selectedMode,
-  borderRadius,
-  onThemeChange,
-  onModeChange,
-  onBorderRadiusChange,
-  onCustomColorsChange,
-}: ThemeSelectorProps) {
-  const [primaryColor, setPrimaryColor] = useState(selectedTheme.primaryColor)
+export function ThemeSelector() {
+  const theme = useComponentStore((state) => state.theme)
+  const setTheme = useComponentStore((state) => state.setTheme)
+  const setThemeMode = useComponentStore((state) => state.setThemeMode)
+  const setBorderRadius = useComponentStore((state) => state.setBorderRadius)
+  const setCustomColors = useComponentStore((state) => state.setCustomColors)
+  const setIconLibrary = useComponentStore((state) => state.setIconLibrary)
+
+  const [primaryColor, setPrimaryColor] = useState(
+    theme.selectedTheme.primaryColor,
+  )
   const [secondaryColor, setSecondaryColor] = useState(
-    selectedTheme.secondaryColor,
+    theme.selectedTheme.secondaryColor,
   )
 
   const handlePrimaryColorChange = (color: string) => {
     setPrimaryColor(color)
-    onCustomColorsChange(color, secondaryColor)
+    setCustomColors(color, secondaryColor)
   }
 
   const handleSecondaryColorChange = (color: string) => {
     setSecondaryColor(color)
-    onCustomColorsChange(primaryColor, color)
+    setCustomColors(primaryColor, color)
   }
 
   return (
@@ -96,38 +148,38 @@ export function ThemeSelector({
       <div className="space-y-3">
         <h3 className="text-sm font-medium text-neutral-300">Color Theme</h3>
         <div className="grid grid-cols-3 gap-3">
-          {colorThemes.map((theme) => (
+          {colorThemes.map((colorTheme) => (
             <button
-              key={theme.id}
+              key={colorTheme.id}
               className={cn(
-                'relative h-20 rounded-md overflow-hidden border-2 transition-all',
-                selectedTheme.id === theme.id
+                'relative h-12 rounded-md overflow-hidden border-2 transition-all',
+                theme.selectedTheme.id === colorTheme.id
                   ? 'border-white ring-2 ring-primary'
                   : 'border-transparent hover:border-neutral-700',
               )}
               onClick={() => {
-                onThemeChange(theme)
-                setPrimaryColor(theme.primaryColor)
-                setSecondaryColor(theme.secondaryColor)
+                setTheme(colorTheme)
+                setPrimaryColor(colorTheme.primaryColor)
+                setSecondaryColor(colorTheme.secondaryColor)
               }}
               type="button"
             >
               <div className="absolute inset-0 flex flex-col">
                 <div
                   className="h-1/2"
-                  style={{ backgroundColor: theme.primaryColor }}
+                  style={{ backgroundColor: colorTheme.primaryColor }}
                 />
                 <div
                   className="h-1/2"
-                  style={{ backgroundColor: theme.secondaryColor }}
+                  style={{ backgroundColor: colorTheme.secondaryColor }}
                 />
               </div>
-              {selectedTheme.id === theme.id && (
+              {theme.selectedTheme.id === colorTheme.id && (
                 <div className="absolute inset-0 flex items-center justify-center bg-black/30">
                   <Check className="h-6 w-6 text-white" />
                 </div>
               )}
-              <span className="sr-only">{theme.name}</span>
+              <span className="sr-only">{colorTheme.name}</span>
             </button>
           ))}
         </div>
@@ -149,47 +201,23 @@ export function ThemeSelector({
         </div>
       </div>
 
-      <div className="space-y-3">
+      <div className="space-y-3 w-full">
         <h3 className="text-sm font-medium text-neutral-300">Border Radius</h3>
-        <div className="space-y-1.5">
+        <div className="space-y-1.5 w-full">
           <ToggleGroup
             type="single"
-            value={borderRadius}
+            value={theme.borderRadius}
+            variant="outline"
             onValueChange={(value) => {
-              if (value) onBorderRadiusChange(value as BorderRadius)
+              if (value) setBorderRadius(value as BorderRadius)
             }}
-            className="justify-between"
+            className="justify-between w-full"
           >
-            <ToggleGroupItem
-              value="0"
-              className="flex-1 data-[state=on]:bg-primary data-[state=on]:text-white"
-            >
-              0
-            </ToggleGroupItem>
-            <ToggleGroupItem
-              value="0.3"
-              className="flex-1 data-[state=on]:bg-primary data-[state=on]:text-white"
-            >
-              0.3
-            </ToggleGroupItem>
-            <ToggleGroupItem
-              value="0.5"
-              className="flex-1 data-[state=on]:bg-primary data-[state=on]:text-white"
-            >
-              0.5
-            </ToggleGroupItem>
-            <ToggleGroupItem
-              value="0.75"
-              className="flex-1 data-[state=on]:bg-primary data-[state=on]:text-white"
-            >
-              0.75
-            </ToggleGroupItem>
-            <ToggleGroupItem
-              value="1"
-              className="flex-1 data-[state=on]:bg-primary data-[state=on]:text-white"
-            >
-              1
-            </ToggleGroupItem>
+            <ToggleGroupItem value="0">0</ToggleGroupItem>
+            <ToggleGroupItem value="0.3">0.3</ToggleGroupItem>
+            <ToggleGroupItem value="0.5">0.5</ToggleGroupItem>
+            <ToggleGroupItem value="0.75">0.75</ToggleGroupItem>
+            <ToggleGroupItem value="1">1</ToggleGroupItem>
           </ToggleGroup>
           <div className="flex justify-between px-1">
             <Label className="text-xs text-neutral-500">Square</Label>
@@ -201,54 +229,154 @@ export function ThemeSelector({
       <div className="space-y-3">
         <h3 className="text-sm font-medium text-neutral-300">Theme Mode</h3>
         <div className="grid grid-cols-3 gap-3">
-          <button
-            className={cn(
-              'flex flex-col items-center justify-center rounded-md border-2 bg-white p-3 transition-all',
-              selectedMode === 'light'
-                ? 'border-white ring-2 ring-primary'
-                : 'border-transparent hover:border-neutral-700',
-            )}
-            onClick={() => onModeChange('light')}
-            type="button"
-          >
-            <div className="h-8 w-8 rounded-full bg-neutral-200 mb-2" />
-            <span className="text-xs font-medium text-black">Light</span>
-          </button>
+          <div className="flex flex-col items-center gap-1.5">
+            <button
+              className={cn(
+                'relative w-full h-10 rounded-md overflow-hidden border-2 transition-all bg-white',
+                theme.selectedMode === 'light'
+                  ? 'border-white ring-2 ring-primary'
+                  : 'border-transparent hover:border-neutral-700',
+              )}
+              onClick={() => setThemeMode('light')}
+              type="button"
+            >
+              {theme.selectedMode === 'light' && (
+                <div className="absolute inset-0 flex items-center justify-center bg-black/30">
+                  <Check className="h-6 w-6 text-white" />
+                </div>
+              )}
+              <span className="sr-only">Light Mode</span>
+            </button>
+            <Label
+              className={cn(
+                'text-xs',
+                theme.selectedMode === 'light'
+                  ? 'text-white'
+                  : 'text-neutral-500',
+              )}
+            >
+              Light
+            </Label>
+          </div>
 
-          <button
-            className={cn(
-              'flex flex-col items-center justify-center rounded-md border-2 bg-neutral-900 p-3 transition-all',
-              selectedMode === 'dark'
-                ? 'border-white ring-2 ring-primary'
-                : 'border-transparent hover:border-neutral-700',
-            )}
-            onClick={() => onModeChange('dark')}
-            type="button"
-          >
-            <div className="h-8 w-8 rounded-full bg-neutral-700 mb-2" />
-            <span className="text-xs font-medium text-white">Dark</span>
-          </button>
+          <div className="flex flex-col items-center gap-1.5">
+            <button
+              className={cn(
+                'relative w-full h-10 rounded-md overflow-hidden border-2 transition-all bg-black',
+                theme.selectedMode === 'dark'
+                  ? 'border-white ring-2 ring-primary'
+                  : 'border-transparent hover:border-neutral-700',
+              )}
+              onClick={() => setThemeMode('dark')}
+              type="button"
+            >
+              {theme.selectedMode === 'dark' && (
+                <div className="absolute inset-0 flex items-center justify-center bg-black/30">
+                  <Check className="h-6 w-6 text-white" />
+                </div>
+              )}
+              <span className="sr-only">Dark Mode</span>
+            </button>
+            <Label
+              className={cn(
+                'text-xs',
+                theme.selectedMode === 'dark'
+                  ? 'text-white'
+                  : 'text-neutral-500',
+              )}
+            >
+              Dark
+            </Label>
+          </div>
 
-          <button
-            className={cn(
-              'flex flex-col items-center justify-center rounded-md border-2 p-3 transition-all',
-              selectedMode === 'both'
-                ? 'border-white ring-2 ring-primary'
-                : 'border-transparent hover:border-neutral-700',
-            )}
-            onClick={() => onModeChange('both')}
-            type="button"
-          >
-            <div className="flex h-8 w-8 mb-2">
-              <div className="h-8 w-4 rounded-l-full bg-white" />
-              <div className="h-8 w-4 rounded-r-full bg-neutral-900" />
-            </div>
-            <span className="text-xs font-medium">Both</span>
-          </button>
+          <div className="flex flex-col items-center gap-1.5">
+            <button
+              className={cn(
+                'relative w-full h-10 rounded-md overflow-hidden border-2 transition-all',
+                theme.selectedMode === 'both'
+                  ? 'border-white ring-2 ring-primary'
+                  : 'border-transparent hover:border-neutral-700',
+              )}
+              onClick={() => setThemeMode('both')}
+              type="button"
+            >
+              <div
+                className="absolute inset-0"
+                style={{
+                  background:
+                    'linear-gradient(90deg, white 0 50%, black 50% 100%)',
+                }}
+              />
+              {theme.selectedMode === 'both' && (
+                <div className="absolute inset-0 flex items-center justify-center bg-black/30">
+                  <Check className="h-6 w-6 text-white" />
+                </div>
+              )}
+              <span className="sr-only">Both Modes</span>
+            </button>
+            <Label
+              className={cn(
+                'text-xs',
+                theme.selectedMode === 'both'
+                  ? 'text-white'
+                  : 'text-neutral-500',
+              )}
+            >
+              Both
+            </Label>
+          </div>
         </div>
+      </div>
+
+      <div className="space-y-3">
+        <h3 className="text-sm font-medium text-neutral-300">Icon Library</h3>
+        <Select
+          value={theme.selectedIconLibrary}
+          onValueChange={setIconLibrary}
+        >
+          <SelectTrigger className="w-full">
+            <SelectValue placeholder="Select an icon library">
+              <div className="flex items-center gap-2">
+                <div className="flex size-5 shrink-0 items-center justify-center rounded bg-neutral-800 text-white">
+                  {
+                    iconLibraries.find(
+                      (lib) => lib.id === theme.selectedIconLibrary,
+                    )?.previewIcon
+                  }
+                </div>
+                {
+                  iconLibraries.find(
+                    (lib) => lib.id === theme.selectedIconLibrary,
+                  )?.name
+                }
+              </div>
+            </SelectValue>
+          </SelectTrigger>
+          <SelectContent>
+            {iconLibraries.map((library) => (
+              <SelectItem
+                key={library.id}
+                value={library.id}
+                className="flex flex-col items-start py-3"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="flex size-6 shrink-0 items-center justify-center rounded bg-neutral-800">
+                    {library.previewIcon}
+                  </div>
+                  <div>
+                    <div className="font-medium">{library.name}</div>
+                    <div className="text-xs text-muted-foreground">
+                      {library.description}
+                    </div>
+                  </div>
+                </div>
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
     </div>
   )
 }
 
-export { colorThemes }
+export { colorThemes, iconLibraries }

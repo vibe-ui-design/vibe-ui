@@ -1,0 +1,13 @@
+{
+  "name": "calendar",
+  "type": "registry:component",
+  "title": "Calendar",
+  "description": "A simple calendar component",
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "registry/calendar/component.tsx",
+      "type": "registry:component"
+    }
+  ]
+}

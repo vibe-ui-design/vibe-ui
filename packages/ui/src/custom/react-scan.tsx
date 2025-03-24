@@ -10,6 +10,7 @@ export function ReactScan(): JSX.Element {
   const enabled = pathParams.get('react-scan') === 'true'
 
   useEffect(() => {
+    console.log('enabled', enabled, isDevelopment)
     if (enabled && isDevelopment) {
       import('react-scan').then(({ scan }) => {
         scan({

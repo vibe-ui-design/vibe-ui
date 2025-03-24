@@ -9,6 +9,9 @@ interface Component {
   name: string
   description: string
   category: string
+  framework?: string
+  preview?: string
+  itemType: 'component' | 'template'
 }
 
 export interface ColorTheme {
@@ -30,6 +33,7 @@ interface ComponentState {
     customPrimaryColor: string
     customSecondaryColor: string
     isUsingCustomColors: boolean
+    selectedIconLibrary: string
   }
 }
 
@@ -40,6 +44,7 @@ interface ComponentActions {
   setThemeMode: (mode: ThemeMode) => void
   setBorderRadius: (radius: BorderRadius) => void
   setCustomColors: (primary: string, secondary: string) => void
+  setIconLibrary: (libraryId: string) => void
 }
 
 type ComponentStore = ComponentState & ComponentActions
@@ -60,6 +65,7 @@ export const defaultInitState: ComponentState = {
     customPrimaryColor: defaultTheme.primaryColor,
     customSecondaryColor: defaultTheme.secondaryColor,
     isUsingCustomColors: false,
+    selectedIconLibrary: 'lucide',
   },
 }
 
@@ -112,6 +118,13 @@ export const createComponentStore = (
               customPrimaryColor: primary,
               customSecondaryColor: secondary,
               isUsingCustomColors: true,
+            },
+          })),
+        setIconLibrary: (libraryId) =>
+          set((state) => ({
+            theme: {
+              ...state.theme,
+              selectedIconLibrary: libraryId,
             },
           })),
       }),

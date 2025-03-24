@@ -27,7 +27,6 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@acme/ui/tabs'
 import { ThemePreview } from '~/components/theme-preview'
 import { ThemeSelector } from '~/components/theme-selector'
-import type { ColorTheme } from '../store'
 import { useComponentStore } from '../store'
 
 // This is sample data.
@@ -77,13 +76,6 @@ const data = {
   ] as FileTreeItem[],
 }
 
-const defaultTheme = {
-  id: 'violet',
-  name: 'Violet',
-  primaryColor: '#8B5CF6',
-  secondaryColor: '#C4B5FD',
-}
-
 export function FileSidebar({
   onClose,
   ...props
@@ -93,32 +85,9 @@ export function FileSidebar({
   const selectedComponents = useComponentStore(
     (state) => state.selectedComponents,
   )
-  const theme = useComponentStore((state) => state.theme)
-  const setTheme = useComponentStore((state) => state.setTheme)
-  const setThemeMode = useComponentStore((state) => state.setThemeMode)
-  const setBorderRadius = useComponentStore((state) => state.setBorderRadius)
-  const setCustomColors = useComponentStore((state) => state.setCustomColors)
 
   if (selectedComponents.length === 0) {
     return null
-  }
-
-  const handleThemeChange = (theme: ColorTheme) => {
-    setTheme(theme)
-  }
-
-  const handleCustomColorsChange = (primary: string, secondary: string) => {
-    setCustomColors(primary, secondary)
-  }
-
-  const currentTheme = {
-    ...theme.selectedTheme,
-    primaryColor: theme.isUsingCustomColors
-      ? theme.customPrimaryColor
-      : theme.selectedTheme.primaryColor,
-    secondaryColor: theme.isUsingCustomColors
-      ? theme.customSecondaryColor
-      : theme.selectedTheme.secondaryColor,
   }
 
   const handleDownload = () => {
@@ -136,23 +105,6 @@ export function FileSidebar({
       collapsible="none"
       {...props}
     >
-      {/* <SidebarHeader className="flex shrink-0 items-center justify-between  px-4 py-3">
-        <div className="flex items-center gap-2">
-          <Settings2 className="h-5 w-5 text-neutral-400" />
-          <span className="font-semibold">Project Settings</span>
-        </div>
-        {onClose && (
-          <Button
-            variant="ghost"
-            size="icon"
-            className="h-8 w-8 text-neutral-400 hover:text-white"
-            onClick={onClose}
-          >
-            <X className="h-4 w-4" />
-            <span className="sr-only">Close settings</span>
-          </Button>
-        )}
-      </SidebarHeader> */}
       <Tabs defaultValue="theme" className="flex-1 overflow-hidden">
         <div className="flex h-full flex-col">
           <div className="px-4 py-2">
@@ -168,22 +120,10 @@ export function FileSidebar({
           <SidebarContent className="flex-1 overflow-y-auto">
             <TabsContent value="theme" className="m-0 h-full">
               <div className="space-y-4 p-4">
-                <ThemeSelector
-                  selectedTheme={theme.selectedTheme}
-                  selectedMode={theme.selectedMode}
-                  borderRadius={theme.borderRadius}
-                  onThemeChange={handleThemeChange}
-                  onModeChange={setThemeMode}
-                  onBorderRadiusChange={setBorderRadius}
-                  onCustomColorsChange={handleCustomColorsChange}
-                />
+                <ThemeSelector />
                 <div className="flex flex-col gap-2">
                   <div className="text-sm font-medium">Preview</div>
-                  <ThemePreview
-                    theme={currentTheme}
-                    mode={theme.selectedMode}
-                    borderRadius={theme.borderRadius}
-                  />
+                  <ThemePreview />
                 </div>
               </div>
             </TabsContent>
