@@ -15,6 +15,8 @@ export async function createThemeSelection(
     .values({
       registryItems: validatedInput.registryItems,
       themeConfig: validatedInput.themeConfig,
+      title: validatedInput.title,
+      prompt: validatedInput.prompt,
       expiresAt: add(new Date(), { hours: 24 }), // Expires in 24 hours
     })
     .returning({ id: ThemeSelections.id })

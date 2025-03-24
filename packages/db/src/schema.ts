@@ -189,6 +189,8 @@ export const themeConfigSchema = z.object({
 export const themeSelectionSchema = z.object({
   registryItems: z.array(z.any()),
   themeConfig: themeConfigSchema,
+  title: z.string().default('Vibe UI Theme'),
+  prompt: z.string().default('Apply this theme to my design'),
 })
 
 export type ThemeConfig = z.infer<typeof themeConfigSchema>
@@ -200,10 +202,11 @@ export const ThemeSelections = pgTable('theme_selections', {
     .primaryKey(),
   registryItems: json('registryItems').$type<RegistryItem[]>().notNull(),
   themeConfig: json('themeConfig').$type<ThemeConfig>().notNull(),
+  title: text('title').notNull(),
+  prompt: text('prompt').notNull(),
   createdByUserId: varchar('createdByUserId').references(() => Users.id, {
     onDelete: 'cascade',
   }),
-  // .notNull(),
   createdAt: timestamp('createdAt', {
     mode: 'date',
     withTimezone: true,

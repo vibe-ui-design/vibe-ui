@@ -31,6 +31,8 @@ interface SelectionState {
     searchQuery: string
     activeFramework: string
   }
+  title: string
+  prompt: string
 }
 
 interface ComponentActions {
@@ -44,6 +46,8 @@ interface ComponentActions {
   setActiveItemType: (type: ItemType) => void
   setSearchQuery: (query: string) => void
   setActiveRegistry: (registryName: string) => void
+  setTitle: (title: string) => void
+  setPrompt: (prompt: string) => void
 }
 
 type SelectionStore = SelectionState & ComponentActions
@@ -69,6 +73,8 @@ export const defaultInitState: SelectionState = {
     searchQuery: '',
     activeFramework: 'all',
   },
+  title: 'Vibe UI Theme',
+  prompt: 'Apply this theme to my design',
 }
 
 export const createSelectionStore = (
@@ -80,6 +86,8 @@ export const createSelectionStore = (
         ...initState,
         selectedRegistryItems: initState.selectedRegistryItems,
         theme: initState.theme,
+        title: initState.title,
+        prompt: initState.prompt,
         toggleRegistryItem: (component) =>
           set((state) => ({
             selectedRegistryItems: state.selectedRegistryItems.some(
@@ -152,6 +160,8 @@ export const createSelectionStore = (
               activeFramework: framework,
             },
           })),
+        setTitle: (title) => set({ title }),
+        setPrompt: (prompt) => set({ prompt }),
       }),
       {
         name: 'vibe-ui-storage',

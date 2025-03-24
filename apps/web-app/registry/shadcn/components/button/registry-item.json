@@ -4,6 +4,7 @@
   "title": "Button",
   "description": "A simple button component",
   "categories": ["Feedback"],
+  "dependencies": ["@radix-ui/react-slot", "class-variance-authority"],
   "registryDependencies": [],
   "files": [
     {

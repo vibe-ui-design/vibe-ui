@@ -9,16 +9,20 @@ import {
   CollapsibleTrigger,
 } from '@acme/ui/collapsible'
 import { Badge } from '@acme/ui/components/badge'
+import { Input } from '@acme/ui/input'
+import { Label } from '@acme/ui/label'
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
+  SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarMenuSub,
 } from '@acme/ui/sidebar'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@acme/ui/tabs'
+import { Textarea } from '@acme/ui/textarea'
 import { OpenInV0Button } from '~/components/open-in-v0-button'
 import { ThemePreview } from '~/components/theme-preview'
 import { ThemeSelector } from '~/components/theme-selector'
@@ -38,6 +42,10 @@ export function FileSidebar({
     (state) => state.selectedRegistryItems,
   )
   const toggleComponent = useSelectionStore((state) => state.toggleRegistryItem)
+  const title = useSelectionStore((state) => state.title)
+  const prompt = useSelectionStore((state) => state.prompt)
+  const setTitle = useSelectionStore((state) => state.setTitle)
+  const setPrompt = useSelectionStore((state) => state.setPrompt)
 
   if (selectedComponents.length === 0) {
     return null
@@ -74,6 +82,14 @@ export function FileSidebar({
       collapsible="none"
       {...props}
     >
+      <SidebarHeader className="border-b px-4 py-2">
+        <Input
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          placeholder="Project Title"
+          className="h-9"
+        />
+      </SidebarHeader>
       <Tabs defaultValue="files" className="flex-1 overflow-hidden">
         <div className="flex h-full flex-col">
           <div className="px-4 py-2">
@@ -86,6 +102,9 @@ export function FileSidebar({
               </TabsTrigger>
               <TabsTrigger value="theme" className="flex-1">
                 Theme
+              </TabsTrigger>
+              <TabsTrigger value="prompt" className="flex-1">
+                Prompt
               </TabsTrigger>
             </TabsList>
           </div>
@@ -182,6 +201,20 @@ export function FileSidebar({
                 <div className="flex flex-col gap-2">
                   <div className="text-sm font-medium">Preview</div>
                   <ThemePreview />
+                </div>
+              </div>
+            </TabsContent>
+            <TabsContent value="prompt" className="m-0 h-full">
+              <div className="space-y-4 p-4">
+                <div className="space-y-2">
+                  <Label htmlFor="prompt">Prompt for v0</Label>
+                  <Textarea
+                    id="prompt"
+                    value={prompt}
+                    onChange={(e) => setPrompt(e.target.value)}
+                    placeholder="Enter your prompt for v0..."
+                    className="min-h-[200px]"
+                  />
                 </div>
               </div>
             </TabsContent>

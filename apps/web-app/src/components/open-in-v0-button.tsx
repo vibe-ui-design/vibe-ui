@@ -30,6 +30,8 @@ export function OpenInV0Button() {
     (state) => state.selectedRegistryItems,
   )
   const theme = useSelectionStore((state) => state.theme)
+  const title = useSelectionStore((state) => state.title)
+  const prompt = useSelectionStore((state) => state.prompt)
 
   const handleOpenInV0 = async () => {
     try {
@@ -44,12 +46,20 @@ export function OpenInV0Button() {
           isUsingCustomColors: theme.isUsingCustomColors,
           selectedIconLibrary: theme.selectedIconLibrary,
         },
+        title,
+        prompt,
       })
 
-      const openV0Url = 'https://v0.dev/chat/api/open'
+      const baseUrl = new URL('https://v0.dev/chat/api/open')
       const callbackUrl = `${window.location.origin}/api/registry/${themeSelectionId}`
-      // Open v0.dev with the theme selection ID
-      window.open(`${openV0Url}?url=${callbackUrl}`, '_blank')
+
+      // Add query parameters
+      baseUrl.searchParams.set('url', callbackUrl)
+      baseUrl.searchParams.set('title', title)
+      baseUrl.searchParams.set('prompt', prompt)
+
+      // Open v0.dev with all parameters
+      window.open(baseUrl.toString(), '_blank')
     } catch (error) {
       console.error('Failed to create theme selection:', error)
     }
