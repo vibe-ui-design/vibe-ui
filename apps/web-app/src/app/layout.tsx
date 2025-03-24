@@ -3,6 +3,7 @@ import { TailwindIndicator } from '@acme/ui/custom/tailwind-indicator'
 import { GeistMono } from 'geist/font/mono'
 import { GeistSans } from 'geist/font/sans'
 import type { Metadata, Viewport } from 'next'
+import { Inter, Lato, Montserrat, Open_Sans, Roboto } from 'next/font/google'
 import { cookies } from 'next/headers'
 import { NuqsAdapter } from 'nuqs/adapters/next/app'
 
@@ -18,6 +19,26 @@ import { ClerkProvider } from '@clerk/nextjs'
 
 import { TRPCReactProvider } from '@acme/api/client'
 import { env } from '~/env.server'
+
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
+const roboto = Roboto({
+  weight: ['400', '500', '700'],
+  subsets: ['latin'],
+  variable: '--font-roboto',
+})
+const openSans = Open_Sans({
+  subsets: ['latin'],
+  variable: '--font-open-sans',
+})
+const montserrat = Montserrat({
+  subsets: ['latin'],
+  variable: '--font-montserrat',
+})
+const lato = Lato({
+  weight: ['400', '700'],
+  subsets: ['latin'],
+  variable: '--font-lato',
+})
 
 export const metadata: Metadata = {
   description:
@@ -60,6 +81,11 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
           'min-h-screen font-sans antialiased w-full mx-auto scroll-smooth',
           GeistSans.variable,
           GeistMono.variable,
+          inter.variable,
+          roboto.variable,
+          openSans.variable,
+          montserrat.variable,
+          lato.variable,
         )}
       >
         <ReactScan />

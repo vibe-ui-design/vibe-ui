@@ -17,6 +17,7 @@ export async function createThemeSelection(
       themeConfig: validatedInput.themeConfig,
       title: validatedInput.title,
       prompt: validatedInput.prompt,
+      integrations: validatedInput.integrations,
       expiresAt: add(new Date(), { hours: 24 }), // Expires in 24 hours
     })
     .returning({ id: ThemeSelections.id })

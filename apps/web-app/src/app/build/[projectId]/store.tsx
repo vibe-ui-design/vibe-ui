@@ -17,7 +17,7 @@ export type ThemeMode = 'light' | 'dark' | 'both'
 export type BorderRadius = '0' | '0.3' | '0.5' | '0.75' | '1'
 export type ItemType = z.infer<typeof registryItemTypeSchema>
 
-interface SelectionState {
+export interface SelectionState {
   selectedRegistryItems: RegistryItem[]
   theme: {
     selectedTheme: ColorTheme
@@ -27,12 +27,21 @@ interface SelectionState {
     customSecondaryColor: string
     isUsingCustomColors: boolean
     selectedIconLibrary: string
+    selectedFontFamily: string
     activeItemType: ItemType
     searchQuery: string
     activeFramework: string
   }
   title: string
   prompt: string
+  integrations: {
+    supabase: boolean
+    clerk: boolean
+    stripe: boolean
+    vercel: boolean
+    planetscale: boolean
+    uploadthing: boolean
+  }
 }
 
 interface ComponentActions {
@@ -43,11 +52,16 @@ interface ComponentActions {
   setBorderRadius: (radius: BorderRadius) => void
   setCustomColors: (primary: string, secondary: string) => void
   setIconLibrary: (libraryId: string) => void
+  setFontFamily: (fontId: string) => void
   setActiveItemType: (type: ItemType) => void
   setSearchQuery: (query: string) => void
   setActiveRegistry: (registryName: string) => void
   setTitle: (title: string) => void
   setPrompt: (prompt: string) => void
+  setIntegration: (
+    name: keyof SelectionState['integrations'],
+    value: boolean,
+  ) => void
 }
 
 type SelectionStore = SelectionState & ComponentActions
@@ -69,12 +83,21 @@ export const defaultInitState: SelectionState = {
     customSecondaryColor: defaultTheme.secondaryColor,
     isUsingCustomColors: false,
     selectedIconLibrary: 'lucide',
+    selectedFontFamily: 'inter',
     activeItemType: 'registry:component',
     searchQuery: '',
     activeFramework: 'all',
   },
   title: 'Vibe UI Theme',
   prompt: 'Apply this theme to my design',
+  integrations: {
+    supabase: false,
+    clerk: false,
+    stripe: false,
+    vercel: false,
+    planetscale: false,
+    uploadthing: false,
+  },
 }
 
 export const createSelectionStore = (
@@ -88,6 +111,7 @@ export const createSelectionStore = (
         theme: initState.theme,
         title: initState.title,
         prompt: initState.prompt,
+        integrations: initState.integrations,
         toggleRegistryItem: (component) =>
           set((state) => ({
             selectedRegistryItems: state.selectedRegistryItems.some(
@@ -139,6 +163,13 @@ export const createSelectionStore = (
               selectedIconLibrary: libraryId,
             },
           })),
+        setFontFamily: (fontId) =>
+          set((state) => ({
+            theme: {
+              ...state.theme,
+              selectedFontFamily: fontId,
+            },
+          })),
         setActiveItemType: (type) =>
           set((state) => ({
             theme: {
@@ -162,12 +193,22 @@ export const createSelectionStore = (
           })),
         setTitle: (title) => set({ title }),
         setPrompt: (prompt) => set({ prompt }),
+        setIntegration: (name, value) =>
+          set((state) => ({
+            integrations: {
+              ...state.integrations,
+              [name]: value,
+            },
+          })),
       }),
       {
         name: 'vibe-ui-storage',
         partialize: (state) => ({
           selectedComponents: state.selectedRegistryItems,
           theme: state.theme,
+          title: state.title,
+          prompt: state.prompt,
+          integrations: state.integrations,
         }),
       },
     ),

@@ -31,6 +31,13 @@ export type ThemeMode = 'light' | 'dark' | 'both'
 
 export type BorderRadius = '0' | '0.3' | '0.5' | '0.75' | '1'
 
+export type FontFamily = {
+  id: string
+  name: string
+  value: string
+  description: string
+}
+
 export type IconLibrary = {
   id: string
   name: string
@@ -75,6 +82,39 @@ const colorThemes: ColorTheme[] = [
     name: 'Slate',
     primaryColor: '#64748B',
     secondaryColor: '#CBD5E1',
+  },
+]
+
+const fontFamilies: FontFamily[] = [
+  {
+    id: 'inter',
+    name: 'Inter',
+    value: 'Inter, sans-serif',
+    description: 'Clean and modern sans-serif',
+  },
+  {
+    id: 'roboto',
+    name: 'Roboto',
+    value: 'Roboto, sans-serif',
+    description: "Google's signature font",
+  },
+  {
+    id: 'open-sans',
+    name: 'Open Sans',
+    value: 'Open Sans, sans-serif',
+    description: 'Friendly and approachable',
+  },
+  {
+    id: 'montserrat',
+    name: 'Montserrat',
+    value: 'Montserrat, sans-serif',
+    description: 'Modern geometric sans-serif',
+  },
+  {
+    id: 'lato',
+    name: 'Lato',
+    value: 'Lato, sans-serif',
+    description: 'Balanced and readable',
   },
 ]
 
@@ -125,6 +165,7 @@ export function ThemeSelector() {
   const setBorderRadius = useSelectionStore((state) => state.setBorderRadius)
   const setCustomColors = useSelectionStore((state) => state.setCustomColors)
   const setIconLibrary = useSelectionStore((state) => state.setIconLibrary)
+  const setFontFamily = useSelectionStore((state) => state.setFontFamily)
 
   const [primaryColor, setPrimaryColor] = useState(
     theme.selectedTheme.primaryColor,
@@ -329,6 +370,52 @@ export function ThemeSelector() {
       </div>
 
       <div className="space-y-3">
+        <h3 className="text-sm font-medium text-neutral-300">Font Family</h3>
+        <Select value={theme.selectedFontFamily} onValueChange={setFontFamily}>
+          <SelectTrigger className="w-full">
+            <SelectValue placeholder="Select a font family">
+              <div className="flex items-center gap-2">
+                <span
+                  style={{
+                    fontFamily: fontFamilies.find(
+                      (font) => font.id === theme.selectedFontFamily,
+                    )?.value,
+                  }}
+                >
+                  {
+                    fontFamilies.find(
+                      (font) => font.id === theme.selectedFontFamily,
+                    )?.name
+                  }
+                </span>
+              </div>
+            </SelectValue>
+          </SelectTrigger>
+          <SelectContent>
+            {fontFamilies.map((font) => (
+              <SelectItem
+                key={font.id}
+                value={font.id}
+                className="flex flex-col items-start py-3"
+              >
+                <div className="flex flex-col gap-1">
+                  <div
+                    className="font-medium"
+                    style={{ fontFamily: font.value }}
+                  >
+                    {font.name}
+                  </div>
+                  <div className="text-xs text-muted-foreground">
+                    {font.description}
+                  </div>
+                </div>
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+
+      <div className="space-y-3">
         <h3 className="text-sm font-medium text-neutral-300">Icon Library</h3>
         <Select
           value={theme.selectedIconLibrary}
@@ -379,4 +466,4 @@ export function ThemeSelector() {
   )
 }
 
-export { colorThemes, iconLibraries }
+export { colorThemes, iconLibraries, fontFamilies }

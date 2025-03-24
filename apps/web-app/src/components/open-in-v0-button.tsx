@@ -32,7 +32,7 @@ export function OpenInV0Button() {
   const theme = useSelectionStore((state) => state.theme)
   const title = useSelectionStore((state) => state.title)
   const prompt = useSelectionStore((state) => state.prompt)
-
+  const integrations = useSelectionStore((state) => state.integrations)
   const handleOpenInV0 = async () => {
     try {
       const themeSelectionId = await createThemeSelection({
@@ -48,6 +48,7 @@ export function OpenInV0Button() {
         },
         title,
         prompt,
+        integrations: integrations,
       })
 
       const baseUrl = new URL('https://v0.dev/chat/api/open')

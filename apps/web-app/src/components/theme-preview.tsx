@@ -1,11 +1,14 @@
 import { useSelectionStore } from '~/app/build/[projectId]/store'
-import { iconLibraries } from './theme-selector'
+import { fontFamilies, iconLibraries } from './theme-selector'
 
 export function ThemePreview() {
   const mode = useSelectionStore((state) => state.theme.selectedMode)
   const borderRadius = useSelectionStore((state) => state.theme.borderRadius)
   const selectedIconLibrary = useSelectionStore(
     (state) => state.theme.selectedIconLibrary,
+  )
+  const selectedFontFamily = useSelectionStore(
+    (state) => state.theme.selectedFontFamily,
   )
   const isUsingCustomColors = useSelectionStore(
     (state) => state.theme.isUsingCustomColors,
@@ -35,6 +38,10 @@ export function ThemePreview() {
     (lib) => lib.id === selectedIconLibrary,
   )?.previewIcon
 
+  const selectedFont = fontFamilies.find(
+    (font) => font.id === selectedFontFamily,
+  )?.value
+
   const colors = isUsingCustomColors
     ? {
         primaryColor: customPrimaryColor,
@@ -43,91 +50,58 @@ export function ThemePreview() {
     : selectedTheme
 
   return (
-    <div className="space-y-4">
-      <div className="flex gap-4">
-        {(mode === 'light' || mode === 'both') && (
-          <div
-            className="flex-1 border border-neutral-800 overflow-hidden"
-            style={{ borderRadius: borderRadiusValue }}
+    <div
+      className={`grid gap-4 rounded-lg border p-4 ${
+        mode === 'dark'
+          ? 'bg-black border-neutral-800'
+          : 'bg-white border-neutral-200'
+      }`}
+      style={{ fontFamily: selectedFont }}
+    >
+      <div className="space-y-2">
+        <div className="text-sm font-medium">Button & Icon</div>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            className="inline-flex items-center justify-center gap-2 rounded px-3 py-1.5 text-sm font-medium text-white transition-colors"
+            style={{
+              backgroundColor: colors.primaryColor,
+              borderRadius: borderRadiusValue,
+            }}
           >
-            <div
-              className="h-8 w-full flex items-center px-3"
-              style={{ backgroundColor: colors.primaryColor }}
-            >
-              <div className="flex size-4 shrink-0 items-center justify-center text-white">
-                {selectedIcon}
-              </div>
-            </div>
-            <div className="p-4 bg-white">
-              <div
-                className="h-4 w-3/4 mb-2"
-                style={{
-                  backgroundColor: colors.secondaryColor,
-                  borderRadius: borderRadiusValue,
-                }}
-              />
-              <div
-                className="h-4 w-1/2 mb-2 bg-neutral-200"
-                style={{ borderRadius: borderRadiusValue }}
-              />
-              <div
-                className="h-4 w-2/3 bg-neutral-200"
-                style={{ borderRadius: borderRadiusValue }}
-              />
-              <div className="mt-4 flex justify-end">
-                <div
-                  className="h-8 w-24"
-                  style={{
-                    backgroundColor: colors.primaryColor,
-                    borderRadius: borderRadiusValue,
-                  }}
-                />
-              </div>
-            </div>
-          </div>
-        )}
+            {selectedIcon}
+            Button
+          </button>
+        </div>
+      </div>
 
-        {(mode === 'dark' || mode === 'both') && (
+      <div className="space-y-2">
+        <div className="text-sm font-medium">Typography</div>
+        <div className="space-y-1">
           <div
-            className="flex-1 border border-neutral-800 overflow-hidden"
-            style={{ borderRadius: borderRadiusValue }}
+            className="text-lg font-semibold"
+            style={{ color: colors.primaryColor }}
           >
-            <div
-              className="h-8 w-full flex items-center px-3"
-              style={{ backgroundColor: colors.primaryColor }}
-            >
-              <div className="flex size-4 shrink-0 items-center justify-center text-white">
-                {selectedIcon}
-              </div>
-            </div>
-            <div className="p-4 bg-neutral-900">
-              <div
-                className="h-4 w-3/4 mb-2"
-                style={{
-                  backgroundColor: colors.secondaryColor,
-                  borderRadius: borderRadiusValue,
-                }}
-              />
-              <div
-                className="h-4 w-1/2 mb-2 bg-neutral-700"
-                style={{ borderRadius: borderRadiusValue }}
-              />
-              <div
-                className="h-4 w-2/3 bg-neutral-700"
-                style={{ borderRadius: borderRadiusValue }}
-              />
-              <div className="mt-4 flex justify-end">
-                <div
-                  className="h-8 w-24"
-                  style={{
-                    backgroundColor: colors.primaryColor,
-                    borderRadius: borderRadiusValue,
-                  }}
-                />
-              </div>
-            </div>
+            Heading Text
           </div>
-        )}
+          <div className="text-sm">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
+            eiusmod tempor incididunt ut labore.
+          </div>
+        </div>
+      </div>
+
+      <div className="space-y-2">
+        <div className="text-sm font-medium">Card</div>
+        <div
+          className="rounded border p-3"
+          style={{
+            borderRadius: borderRadiusValue,
+            borderColor: colors.secondaryColor,
+          }}
+        >
+          <div className="text-sm">Card Content</div>
+        </div>
       </div>
     </div>
   )

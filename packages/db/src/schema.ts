@@ -186,14 +186,32 @@ export const themeConfigSchema = z.object({
   selectedIconLibrary: z.string(),
 })
 
+export const integrationsSchema = z.object({
+  supabase: z.boolean().default(false),
+  clerk: z.boolean().default(false),
+  stripe: z.boolean().default(false),
+  vercel: z.boolean().default(false),
+  planetscale: z.boolean().default(false),
+  uploadthing: z.boolean().default(false),
+})
+
 export const themeSelectionSchema = z.object({
   registryItems: z.array(z.any()),
   themeConfig: themeConfigSchema,
   title: z.string().default('Vibe UI Theme'),
   prompt: z.string().default('Apply this theme to my design'),
+  integrations: integrationsSchema.default({
+    supabase: false,
+    clerk: false,
+    stripe: false,
+    vercel: false,
+    planetscale: false,
+    uploadthing: false,
+  }),
 })
 
 export type ThemeConfig = z.infer<typeof themeConfigSchema>
+export type IntegrationsConfig = z.infer<typeof integrationsSchema>
 
 export const ThemeSelections = pgTable('theme_selections', {
   id: varchar('id', { length: 128 })
@@ -204,6 +222,7 @@ export const ThemeSelections = pgTable('theme_selections', {
   themeConfig: json('themeConfig').$type<ThemeConfig>().notNull(),
   title: text('title').notNull(),
   prompt: text('prompt').notNull(),
+  integrations: json('integrations').$type<IntegrationsConfig>().notNull(),
   createdByUserId: varchar('createdByUserId').references(() => Users.id, {
     onDelete: 'cascade',
   }),
