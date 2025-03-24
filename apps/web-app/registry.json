@@ -1,29 +1,20 @@
 {
   "name": "vibe-ui",
   "homepage": "https://vibe-ui.com",
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
   "items": [
     {
       "name": "button",
       "type": "registry:component",
       "title": "Button",
       "description": "A simple button component",
+      "categories": [
+        "Feedback"
+      ],
       "registryDependencies": [],
       "files": [
         {
-          "path": "registry/button/component.tsx",
-          "type": "registry:component"
-        }
-      ]
-    },
-    {
-      "name": "calendar",
-      "type": "registry:component",
-      "title": "Calendar",
-      "description": "A simple calendar component",
-      "registryDependencies": [],
-      "files": [
-        {
-          "path": "registry/calendar/component.tsx",
+          "path": "registry/shadcn/components/button/component.tsx",
           "type": "registry:component"
         }
       ]

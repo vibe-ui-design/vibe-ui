@@ -76,7 +76,9 @@
     "SUPABASE_JWT_SECRET",
     "CLERK_WEBHOOK_SECRET",
     "OPENAI_API_KEY",
-    "POSTHOG_KEY"
+    "POSTHOG_KEY",
+    "STRIPE_SECRET_KEY",
+    "STRIPE_WEBHOOK_SECRET"
   ],
   "globalPassThroughEnv": [
     "NODE_ENV",

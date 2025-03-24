@@ -12,7 +12,7 @@ import {
 import { createInsertSchema } from 'drizzle-zod'
 import { z } from 'zod'
 
-import { type RegistryItem, registryItemSchema } from 'shadcn/registry'
+import type { RegistryItem } from 'shadcn/registry'
 
 import { createId } from '@acme/id'
 
@@ -187,7 +187,7 @@ export const themeConfigSchema = z.object({
 })
 
 export const themeSelectionSchema = z.object({
-  registryItems: z.array(registryItemSchema),
+  registryItems: z.array(z.any()),
   themeConfig: themeConfigSchema,
 })
 
