@@ -21,6 +21,7 @@ import {
 import { Icons } from '@acme/ui/custom/icons'
 import { Input } from '@acme/ui/input'
 import { Label } from '@acme/ui/label'
+import { cn } from '@acme/ui/lib/utils'
 import {
   Sidebar,
   SidebarContent,
@@ -66,7 +67,7 @@ function generatePrompt(
   let prompt = `Create a Next.js application using the App Router for ${title}. Use the following components: ${components.join(', ')}. Style it with a ${theme.selectedMode} theme using ${theme.selectedTheme.name} as the primary color scheme and a border radius of ${theme.borderRadius}rem.`
 
   if (enabledIntegrations.length > 0) {
-    prompt += `\n\nInclude the following integrations: ${enabledIntegrations.join(', ')}.`
+    prompt += ` Include the following integrations: ${enabledIntegrations.join(', ')}.`
   }
 
   return prompt
@@ -76,52 +77,32 @@ const componentPrompts: PredefinedPrompt[] = [
   {
     id: 'auth-form',
     label: 'Sign In Form',
-    prompt: (
-      title,
-      components,
-      theme,
-      integrations,
-    ) => `${generatePrompt(title, components, theme, integrations)}
-Create a sign-in form with email and password fields. Add form validation, error states, and a "Remember me" checkbox. Include social sign-in options and a forgot password link. Show loading states during submission.`,
+    prompt: (title, components, theme, integrations) =>
+      `${generatePrompt(title, components, theme, integrations)} Create a sign-in form with email and password fields. Add form validation, error states, and a "Remember me" checkbox. Include social sign-in options and a forgot password link. Show loading states during submission.`,
     icon: Icons.User,
     color: 'text-blue-500',
   },
   {
     id: 'settings',
     label: 'Settings Page',
-    prompt: (
-      title,
-      components,
-      theme,
-      integrations,
-    ) => `${generatePrompt(title, components, theme, integrations)}
-Build a settings page with sections for profile, notifications, and security. Include form inputs, toggles, and save buttons. Add unsaved changes warning and success/error notifications.`,
+    prompt: (title, components, theme, integrations) =>
+      `${generatePrompt(title, components, theme, integrations)} Build a settings page with sections for profile, notifications, and security. Include form inputs, toggles, and save buttons. Add unsaved changes warning and success/error notifications.`,
     icon: Icons.Settings,
     color: 'text-gray-500',
   },
   {
     id: 'dashboard',
     label: 'Dashboard',
-    prompt: (
-      title,
-      components,
-      theme,
-      integrations,
-    ) => `${generatePrompt(title, components, theme, integrations)}
-Create a dashboard layout with a sidebar navigation, header with user menu, and main content area. Add cards for key metrics, a recent activity feed, and data tables.`,
+    prompt: (title, components, theme, integrations) =>
+      `${generatePrompt(title, components, theme, integrations)} Create a dashboard layout with a sidebar navigation, header with user menu, and main content area. Add cards for key metrics, a recent activity feed, and data tables.`,
     icon: Icons.BarChart2,
     color: 'text-indigo-500',
   },
   {
     id: 'pricing',
     label: 'Pricing Section',
-    prompt: (
-      title,
-      components,
-      theme,
-      integrations,
-    ) => `${generatePrompt(title, components, theme, integrations)}
-Design a pricing section with multiple tiers. Include feature lists, monthly/yearly toggle, and highlighted recommended plan. Add CTAs and FAQ section below.`,
+    prompt: (title, components, theme, integrations) =>
+      `${generatePrompt(title, components, theme, integrations)} Design a pricing section with multiple tiers. Include feature lists, monthly/yearly toggle, and highlighted recommended plan. Add CTAs and FAQ section below.`,
     icon: Icons.DollarSign,
     color: 'text-green-500',
   },
@@ -131,52 +112,32 @@ const clonePrompts: PredefinedPrompt[] = [
   {
     id: 'github',
     label: 'Clone GitHub',
-    prompt: (
-      title,
-      components,
-      theme,
-      integrations,
-    ) => `${generatePrompt(title, components, theme, integrations)}
-Create a GitHub-style repository page with a file explorer, README display, and commit history. Include the repository header with stats and actions. Add tabs for Issues, Pull Requests, and Settings. Match GitHub's layout and functionality.`,
+    prompt: (title, components, theme, integrations) =>
+      `${generatePrompt(title, components, theme, integrations)} Create a GitHub-style repository page with a file explorer, README display, and commit history. Include the repository header with stats and actions. Add tabs for Issues, Pull Requests, and Settings. Match GitHub's layout and functionality.`,
     icon: Icons.Github,
     color: 'text-slate-500',
   },
   {
     id: 'linear',
     label: 'Clone Linear',
-    prompt: (
-      title,
-      components,
-      theme,
-      integrations,
-    ) => `${generatePrompt(title, components, theme, integrations)}
-Build a Linear-style issue tracker with a clean, minimal design. Include a sidebar with projects and teams, main issue list with filters, and detail view. Add keyboard shortcuts and smooth animations.`,
+    prompt: (title, components, theme, integrations) =>
+      `${generatePrompt(title, components, theme, integrations)} Build a Linear-style issue tracker with a clean, minimal design. Include a sidebar with projects and teams, main issue list with filters, and detail view. Add keyboard shortcuts and smooth animations.`,
     icon: Icons.CheckCircle2,
     color: 'text-violet-500',
   },
   {
     id: 'slack',
     label: 'Clone Slack',
-    prompt: (
-      title,
-      components,
-      theme,
-      integrations,
-    ) => `${generatePrompt(title, components, theme, integrations)}
-Design a Slack-like chat interface with channels list, message threads, and user presence. Include message composition with formatting, emoji picker, and file uploads. Add channel header and thread sidebar.`,
+    prompt: (title, components, theme, integrations) =>
+      `${generatePrompt(title, components, theme, integrations)} Design a Slack-like chat interface with channels list, message threads, and user presence. Include message composition with formatting, emoji picker, and file uploads. Add channel header and thread sidebar.`,
     icon: Icons.MessageSquareText,
     color: 'text-purple-500',
   },
   {
     id: 'notion',
     label: 'Clone Notion',
-    prompt: (
-      title,
-      components,
-      theme,
-      integrations,
-    ) => `${generatePrompt(title, components, theme, integrations)}
-Create a Notion-style document editor with a sidebar navigation and block-based editing. Include page hierarchy, rich text formatting, and collaborative features. Add cover images and page icons.`,
+    prompt: (title, components, theme, integrations) =>
+      `${generatePrompt(title, components, theme, integrations)} Create a Notion-style document editor with a sidebar navigation and block-based editing. Include page hierarchy, rich text formatting, and collaborative features. Add cover images and page icons.`,
     icon: Icons.Bookmark,
     color: 'text-slate-500',
   },
@@ -186,52 +147,32 @@ const predefinedPrompts: PredefinedPrompt[] = [
   {
     id: 'ecommerce',
     label: 'E-commerce',
-    prompt: (
-      title,
-      components,
-      theme,
-      integrations,
-    ) => `${generatePrompt(title, components, theme, integrations)}
-Build a modern e-commerce platform with a responsive product grid layout. Create a sticky header with search and cart functionality. Add product cards with images, prices, and quick-add buttons. Include a shopping cart panel and multi-step checkout flow. Implement server-side product filtering and search functionality using Next.js Server Components. Add responsive navigation with a mobile menu.`,
+    prompt: (title, components, theme, integrations) =>
+      `${generatePrompt(title, components, theme, integrations)} Build a modern e-commerce platform with a responsive product grid layout. Create a sticky header with search and cart functionality. Add product cards with images, prices, and quick-add buttons. Include a shopping cart panel and multi-step checkout flow. Implement server-side product filtering and search functionality using Next.js Server Components. Add responsive navigation with a mobile menu.`,
     icon: ShoppingBag,
     color: 'text-green-500',
   },
   {
     id: 'portfolio',
     label: 'Portfolio',
-    prompt: (
-      title,
-      components,
-      theme,
-      integrations,
-    ) => `${generatePrompt(title, components, theme, integrations)}
-Design a minimalist portfolio site with a hero section using a clean layout and large typography. Create a filterable project showcase grid. Add smooth scroll navigation with a sticky header. Include an about section with skill tags. Add a contact form with validation. Implement image optimization using Next/Image and add subtle hover animations for interactive elements.`,
+    prompt: (title, components, theme, integrations) =>
+      `${generatePrompt(title, components, theme, integrations)} Design a minimalist portfolio site with a hero section using a clean layout and large typography. Create a filterable project showcase grid. Add smooth scroll navigation with a sticky header. Include an about section with skill tags. Add a contact form with validation. Implement image optimization using Next/Image and add subtle hover animations for interactive elements.`,
     icon: Laptop,
     color: 'text-blue-500',
   },
   {
     id: 'saas',
     label: 'SaaS Landing',
-    prompt: (
-      title,
-      components,
-      theme,
-      integrations,
-    ) => `${generatePrompt(title, components, theme, integrations)}
-Create a conversion-focused SaaS landing page with a hero section and prominent call-to-action buttons. Build a features section in a responsive grid layout. Add pricing tables with a toggle for monthly/yearly prices. Include a testimonials section. Add a sticky call-to-action header. Create an FAQ section. Implement a newsletter signup form. Add integration logos section and trust signals.`,
+    prompt: (title, components, theme, integrations) =>
+      `${generatePrompt(title, components, theme, integrations)} Create a conversion-focused SaaS landing page with a hero section and prominent call-to-action buttons. Build a features section in a responsive grid layout. Add pricing tables with a toggle for monthly/yearly prices. Include a testimonials section. Add a sticky call-to-action header. Create an FAQ section. Implement a newsletter signup form. Add integration logos section and trust signals.`,
     icon: Briefcase,
     color: 'text-indigo-500',
   },
   {
     id: 'blog',
     label: 'Blog',
-    prompt: (
-      title,
-      components,
-      theme,
-      integrations,
-    ) => `${generatePrompt(title, components, theme, integrations)}
-Develop a content-first blog using Next.js App Router and MDX for posts. Create a clean article layout with optimized typography and reading experience. Add a featured posts grid. Implement category-based navigation. Add a newsletter signup form with email validation. Include a related posts section and social sharing functionality. Add a search feature with instant results. Use Next/Image for optimized images.`,
+    prompt: (title, components, theme, integrations) =>
+      `${generatePrompt(title, components, theme, integrations)} Develop a content-first blog using Next.js App Router and MDX for posts. Create a clean article layout with optimized typography and reading experience. Add a featured posts grid. Implement category-based navigation. Add a newsletter signup form with email validation. Include a related posts section and social sharing functionality. Add a search feature with instant results. Use Next/Image for optimized images.`,
     icon: Newspaper,
     color: 'text-purple-500',
   },
@@ -527,44 +468,60 @@ export function FileSidebar({
                       <Textarea
                         id="prompt"
                         value={prompt}
-                        onChange={(e) => setPrompt(e.target.value)}
+                        onChange={(e) => {
+                          setPrompt(e.target.value)
+                        }}
                         placeholder="Enter your prompt for v0..."
                         className="min-h-[200px] rounded-b-none border-b-0"
+                        maxLength={500}
                       />
-                      <div className="flex items-center justify-end gap-2 p-2 bg-secondary/10 rounded-b-md border border-t-0">
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="size-8"
-                          onClick={() => {
-                            const improvedPrompt = `Make it responsive and add animations to interactive elements. Ensure proper spacing and alignment between sections. Add hover states and transitions for better user experience. Optimize for all screen sizes and ensure accessibility compliance.${prompt ? `\n\nOriginal prompt:\n${prompt}` : ''}`
-                            setPrompt(improvedPrompt)
-                          }}
+                      <div className="flex items-center justify-between gap-2 p-2 bg-secondary/10 rounded-b-md border border-t-0">
+                        <span
+                          className={cn(
+                            'text-xs text-muted-foreground',
+                            prompt.length > 500 &&
+                              'text-destructive-foreground',
+                          )}
                         >
-                          <Icons.Sparkles className="size-4" />
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="size-8"
-                          asChild
-                        >
-                          <label>
-                            <input
-                              type="file"
-                              className="hidden"
-                              accept="image/*"
-                              onChange={(e) => {
-                                // TODO: Implement image upload handling
-                                console.log(
-                                  'Image selected:',
-                                  e.target.files?.[0],
-                                )
-                              }}
-                            />
-                            <Icons.Paperclip className="size-4" />
-                          </label>
-                        </Button>
+                          {prompt.length}/500 characters
+                        </span>
+                        <div className="flex items-center gap-2">
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="size-8"
+                            onClick={() => {
+                              const improvedPrompt = `Make it responsive and add animations to interactive elements. Ensure proper spacing and alignment between sections. Add hover states and transitions for better user experience. Optimize for all screen sizes and ensure accessibility compliance.${prompt ? `\n\nOriginal prompt:\n${prompt}` : ''}`
+                              if (improvedPrompt.length <= 500) {
+                                setPrompt(improvedPrompt)
+                              }
+                            }}
+                          >
+                            <Icons.Sparkles className="size-4" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="size-8"
+                            asChild
+                          >
+                            <label>
+                              <input
+                                type="file"
+                                className="hidden"
+                                accept="image/*"
+                                onChange={(e) => {
+                                  // TODO: Implement image upload handling
+                                  console.log(
+                                    'Image selected:',
+                                    e.target.files?.[0],
+                                  )
+                                }}
+                              />
+                              <Icons.Paperclip className="size-4" />
+                            </label>
+                          </Button>
+                        </div>
                       </div>
                     </div>
                   </div>
