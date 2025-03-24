@@ -64,7 +64,7 @@ function generatePrompt(
     .filter(([_, enabled]) => enabled)
     .map(([name]) => name)
 
-  let prompt = `Create a Next.js application using the App Router for ${title}. Use the following components: ${components.join(', ')}. Style it with a ${theme.selectedMode} theme using ${theme.selectedTheme.name} as the primary color scheme and a border radius of ${theme.borderRadius}rem.`
+  let prompt = `Create a Next.js application using the App Router for ${title}. Style it with a ${theme.selectedMode} theme using ${theme.selectedTheme.name} as the primary color scheme and a border radius of ${theme.borderRadius}rem. Update the following components to use this theme: ${components.join(', ')}.`
 
   if (enabledIntegrations.length > 0) {
     prompt += ` Include the following integrations: ${enabledIntegrations.join(', ')}.`
