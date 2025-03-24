@@ -1,9 +1,7 @@
 'use client'
 
 import { Button } from '@acme/ui/button'
-import { Input } from '@acme/ui/input'
 import { Tabs, TabsList, TabsTrigger } from '@acme/ui/tabs'
-import { Filter, Search } from 'lucide-react'
 import { useState } from 'react'
 import {
   groupRegistryItemsByCategory,
@@ -11,7 +9,7 @@ import {
 } from '~/app/build/[projectId]/registry-utils'
 import { ComponentCard } from '~/components/component-card'
 import { componentCategories } from '~/lib/component-data'
-import type { Registry, RegistryItemType } from '../actions'
+import type { Registry } from '../actions'
 import { useComponentStore } from '../store'
 
 interface ComponentSelectionProps {
@@ -19,13 +17,14 @@ interface ComponentSelectionProps {
 }
 
 export function ComponentSelection({ registry }: ComponentSelectionProps) {
-  const [searchQuery, setSearchQuery] = useState('')
   const [activeCategory, setActiveCategory] = useState('all')
-  const [activeFramework, setActiveFramework] = useState(
-    registry.frameworks[0] || 'all',
+  const activeItemType = useComponentStore(
+    (state) => state.theme.activeItemType,
   )
-  const [activeItemType, setActiveItemType] =
-    useState<RegistryItemType>('component')
+  const searchQuery = useComponentStore((state) => state.theme.searchQuery)
+  const activeFramework = useComponentStore(
+    (state) => state.theme.activeFramework,
+  )
 
   const selectedComponents = useComponentStore(
     (state) => state.selectedComponents,
@@ -48,9 +47,10 @@ export function ComponentSelection({ registry }: ComponentSelectionProps) {
       ? itemsByType
       : componentsByCategory[activeCategory] || []
   ).filter((component) => {
+    const searchLowerCase = searchQuery?.toLowerCase() ?? ''
     const matchesSearch =
-      component.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      component.description.toLowerCase().includes(searchQuery.toLowerCase())
+      (component.name?.toLowerCase() ?? '').includes(searchLowerCase) ||
+      (component.description?.toLowerCase() ?? '').includes(searchLowerCase)
     const matchesFramework =
       activeFramework === 'all' || component.framework === activeFramework
 
@@ -60,53 +60,6 @@ export function ComponentSelection({ registry }: ComponentSelectionProps) {
   return (
     <div>
       <div className="flex-1">
-        <div className="mb-6 flex gap-4">
-          <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-neutral-500" />
-            <Input
-              placeholder={`Search ${activeItemType}s...`}
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10 bg-neutral-900 border-neutral-800 text-white placeholder:text-neutral-500"
-            />
-          </div>
-          <Button
-            variant="outline"
-            className="border-neutral-800 bg-transparent text-white hover:bg-neutral-800 hover:text-white"
-          >
-            <Filter className="mr-2 size-4" />
-            Filters
-          </Button>
-        </div>
-
-        <Tabs
-          defaultValue="component"
-          className="mb-4"
-          onValueChange={(value) =>
-            setActiveItemType(value as RegistryItemType)
-          }
-        >
-          <TabsList className="bg-neutral-900 border border-neutral-800">
-            <TabsTrigger value="component">Components</TabsTrigger>
-            <TabsTrigger value="template">Templates</TabsTrigger>
-          </TabsList>
-        </Tabs>
-
-        <Tabs
-          defaultValue={registry.frameworks[0]}
-          className="mb-4"
-          onValueChange={setActiveFramework}
-        >
-          <TabsList className="bg-neutral-900 border border-neutral-800">
-            <TabsTrigger value="all">All Frameworks</TabsTrigger>
-            {registry.frameworks.map((framework) => (
-              <TabsTrigger key={framework} value={framework}>
-                {framework}
-              </TabsTrigger>
-            ))}
-          </TabsList>
-        </Tabs>
-
         <Tabs
           defaultValue="all"
           className="mb-8"
@@ -125,12 +78,12 @@ export function ComponentSelection({ registry }: ComponentSelectionProps) {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredComponents.map((component) => {
             const componentData = {
-              id: component.name,
-              name: component.title,
-              description: component.description,
+              id: component.name ?? '',
+              name: component.title ?? component.name ?? 'Untitled Component',
+              description: component.description ?? 'No description available',
               category: component.categories?.[0] || 'uncategorized',
               framework: component.framework,
-              preview: `/placeholder.svg?height=200&width=300&text=${component.name}`,
+              preview: `/placeholder.svg?height=200&width=300&text=${component.name ?? 'component'}`,
               itemType: component.itemType,
             }
 
@@ -158,9 +111,7 @@ export function ComponentSelection({ registry }: ComponentSelectionProps) {
             <Button
               variant="outline"
               onClick={() => {
-                setSearchQuery('')
                 setActiveCategory('all')
-                setActiveFramework('all')
               }}
             >
               Reset filters

@@ -32,12 +32,8 @@ export function ColorPicker({ color, onChange, label }: ColorPickerProps) {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value
     setValue(newValue)
-  }
-
-  const handleSubmit = () => {
-    if (isValidHex(value)) {
-      onChange(value)
-      setIsOpen(false)
+    if (isValidHex(newValue)) {
+      onChange(newValue)
     }
   }
 
@@ -109,7 +105,10 @@ export function ColorPicker({ color, onChange, label }: ColorPickerProps) {
                     value === colorOption && 'ring-2 ring-primary',
                   )}
                   style={{ backgroundColor: colorOption }}
-                  onClick={() => setValue(colorOption)}
+                  onClick={() => {
+                    setValue(colorOption)
+                    onChange(colorOption)
+                  }}
                   type="button"
                 >
                   {value === colorOption && (
@@ -118,25 +117,6 @@ export function ColorPicker({ color, onChange, label }: ColorPickerProps) {
                 </button>
               ))}
             </div>
-          </div>
-
-          <div className="flex justify-end gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setIsOpen(false)}
-              className="border-neutral-800"
-            >
-              Cancel
-            </Button>
-            <Button
-              size="sm"
-              onClick={handleSubmit}
-              disabled={!isValidHex(value)}
-              className="bg-primary hover:bg-primary/90"
-            >
-              Apply
-            </Button>
           </div>
         </div>
       </PopoverContent>

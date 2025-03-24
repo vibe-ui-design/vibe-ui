@@ -7,14 +7,16 @@ export function ThemePreview() {
   const selectedIconLibrary = useComponentStore(
     (state) => state.theme.selectedIconLibrary,
   )
-  const theme = useComponentStore((state) =>
-    state.theme.isUsingCustomColors
-      ? {
-          primaryColor: state.theme.customPrimaryColor,
-          secondaryColor: state.theme.customSecondaryColor,
-        }
-      : state.theme.selectedTheme,
+  const isUsingCustomColors = useComponentStore(
+    (state) => state.theme.isUsingCustomColors,
   )
+  const customPrimaryColor = useComponentStore(
+    (state) => state.theme.customPrimaryColor,
+  )
+  const customSecondaryColor = useComponentStore(
+    (state) => state.theme.customSecondaryColor,
+  )
+  const selectedTheme = useComponentStore((state) => state.theme.selectedTheme)
 
   // Convert border radius value to rem
   const getBorderRadiusStyle = (value: typeof borderRadius) => {
@@ -33,6 +35,13 @@ export function ThemePreview() {
     (lib) => lib.id === selectedIconLibrary,
   )?.previewIcon
 
+  const colors = isUsingCustomColors
+    ? {
+        primaryColor: customPrimaryColor,
+        secondaryColor: customSecondaryColor,
+      }
+    : selectedTheme
+
   return (
     <div className="space-y-4">
       <div className="flex gap-4">
@@ -43,7 +52,7 @@ export function ThemePreview() {
           >
             <div
               className="h-8 w-full flex items-center px-3"
-              style={{ backgroundColor: theme.primaryColor }}
+              style={{ backgroundColor: colors.primaryColor }}
             >
               <div className="flex size-4 shrink-0 items-center justify-center text-white">
                 {selectedIcon}
@@ -53,7 +62,7 @@ export function ThemePreview() {
               <div
                 className="h-4 w-3/4 mb-2"
                 style={{
-                  backgroundColor: theme.secondaryColor,
+                  backgroundColor: colors.secondaryColor,
                   borderRadius: borderRadiusValue,
                 }}
               />
@@ -69,7 +78,7 @@ export function ThemePreview() {
                 <div
                   className="h-8 w-24"
                   style={{
-                    backgroundColor: theme.primaryColor,
+                    backgroundColor: colors.primaryColor,
                     borderRadius: borderRadiusValue,
                   }}
                 />
@@ -85,7 +94,7 @@ export function ThemePreview() {
           >
             <div
               className="h-8 w-full flex items-center px-3"
-              style={{ backgroundColor: theme.primaryColor }}
+              style={{ backgroundColor: colors.primaryColor }}
             >
               <div className="flex size-4 shrink-0 items-center justify-center text-white">
                 {selectedIcon}
@@ -95,7 +104,7 @@ export function ThemePreview() {
               <div
                 className="h-4 w-3/4 mb-2"
                 style={{
-                  backgroundColor: theme.secondaryColor,
+                  backgroundColor: colors.secondaryColor,
                   borderRadius: borderRadiusValue,
                 }}
               />
@@ -111,7 +120,7 @@ export function ThemePreview() {
                 <div
                   className="h-8 w-24"
                   style={{
-                    backgroundColor: theme.primaryColor,
+                    backgroundColor: colors.primaryColor,
                     borderRadius: borderRadiusValue,
                   }}
                 />

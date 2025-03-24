@@ -11,6 +11,9 @@
   "files.exclude": {
     "**/build": false
   },
+  "search.exclude": {
+    "**/build": false
+  },
   "tailwindCSS.experimental.classRegex": [
     ["clsx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"],
     ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],

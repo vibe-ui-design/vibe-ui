@@ -5,6 +5,7 @@ import {
   ExternalLink,
   File,
   Folder,
+  X,
 } from 'lucide-react'
 import type * as React from 'react'
 
@@ -14,12 +15,12 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from '@acme/ui/collapsible'
+import { Badge } from '@acme/ui/components/badge'
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarMenu,
-  SidebarMenuBadge,
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarMenuSub,
@@ -33,49 +34,6 @@ import { useComponentStore } from '../store'
 type FileTreeDirectory = [string, ...(string | FileTreeDirectory)[]]
 type FileTreeItem = string | FileTreeDirectory
 
-const data = {
-  changes: [
-    {
-      file: 'README.md',
-      state: 'M',
-    },
-    {
-      file: 'api/hello/route.ts',
-      state: 'U',
-    },
-    {
-      file: 'app/layout.tsx',
-      state: 'M',
-    },
-  ],
-  tree: [
-    [
-      'app',
-      [
-        'api',
-        ['hello', ['route.ts']],
-        'page.tsx',
-        'layout.tsx',
-        ['blog', ['page.tsx']],
-      ],
-    ],
-    [
-      'components',
-      ['ui', 'button.tsx', 'card.tsx'],
-      'header.tsx',
-      'footer.tsx',
-    ],
-    ['lib', ['util.ts']],
-    ['public', 'favicon.ico', 'vercel.svg'],
-    '.eslintrc.json',
-    '.gitignore',
-    'next.config.js',
-    'tailwind.config.js',
-    'package.json',
-    'README.md',
-  ] as FileTreeItem[],
-}
-
 export function FileSidebar({
   onClose,
   ...props
@@ -85,9 +43,26 @@ export function FileSidebar({
   const selectedComponents = useComponentStore(
     (state) => state.selectedComponents,
   )
+  const toggleComponent = useComponentStore((state) => state.toggleComponent)
 
   if (selectedComponents.length === 0) {
     return null
+  }
+
+  const data = {
+    tree: [
+      [
+        'components',
+        [
+          'ui',
+          selectedComponents.map(
+            (component) => `${component.name.toLowerCase()}.tsx`,
+          ),
+        ],
+        'layout.tsx',
+      ],
+      ['styles', 'globals.css'],
+    ] as FileTreeItem[],
   }
 
   const handleDownload = () => {
@@ -105,19 +80,108 @@ export function FileSidebar({
       collapsible="none"
       {...props}
     >
-      <Tabs defaultValue="theme" className="flex-1 overflow-hidden">
+      <Tabs defaultValue="files" className="flex-1 overflow-hidden">
         <div className="flex h-full flex-col">
           <div className="px-4 py-2">
             <TabsList className="w-full">
+              <TabsTrigger value="files" className="flex-1">
+                Files{' '}
+                <Badge variant="secondary" className="ml-2">
+                  {selectedComponents.length}
+                </Badge>
+              </TabsTrigger>
               <TabsTrigger value="theme" className="flex-1">
                 Theme
-              </TabsTrigger>
-              <TabsTrigger value="files" className="flex-1">
-                Files
               </TabsTrigger>
             </TabsList>
           </div>
           <SidebarContent className="flex-1 overflow-y-auto">
+            <TabsContent value="files" className="m-0 h-full">
+              <div className="px-2 py-4">
+                <SidebarMenu>
+                  <SidebarMenuItem>
+                    <Collapsible
+                      className="group/collapsible [&[data-state=open]>button>svg:first-child]:rotate-90"
+                      defaultOpen
+                    >
+                      <CollapsibleTrigger asChild>
+                        <SidebarMenuButton>
+                          <ChevronRight className="transition-transform" />
+                          <Folder />
+                          components
+                        </SidebarMenuButton>
+                      </CollapsibleTrigger>
+                      <CollapsibleContent>
+                        <SidebarMenuSub>
+                          <SidebarMenuItem>
+                            <Collapsible
+                              className="group/collapsible [&[data-state=open]>button>svg:first-child]:rotate-90"
+                              defaultOpen
+                            >
+                              <CollapsibleTrigger asChild>
+                                <SidebarMenuButton>
+                                  <ChevronRight className="transition-transform" />
+                                  <Folder />
+                                  ui
+                                </SidebarMenuButton>
+                              </CollapsibleTrigger>
+                              <CollapsibleContent>
+                                <SidebarMenuSub>
+                                  {selectedComponents.map((component) => (
+                                    <div
+                                      key={component.id}
+                                      className="group/file flex items-center gap-2"
+                                    >
+                                      <SidebarMenuButton className="flex-1 data-[active=true]:bg-transparent">
+                                        <File className="size-4" />
+                                        {component.name.toLowerCase()}.tsx
+                                      </SidebarMenuButton>
+                                      <Button
+                                        type="button"
+                                        size="sm"
+                                        variant="ghost"
+                                        onClick={() =>
+                                          toggleComponent(component)
+                                        }
+                                        className="invisible group-hover/file:visible"
+                                      >
+                                        <X className="size-4 text-muted-foreground" />
+                                      </Button>
+                                    </div>
+                                  ))}
+                                </SidebarMenuSub>
+                              </CollapsibleContent>
+                            </Collapsible>
+                          </SidebarMenuItem>
+                        </SidebarMenuSub>
+                      </CollapsibleContent>
+                    </Collapsible>
+                  </SidebarMenuItem>
+                  <SidebarMenuItem>
+                    <Collapsible
+                      className="group/collapsible [&[data-state=open]>button>svg:first-child]:rotate-90"
+                      defaultOpen
+                    >
+                      <CollapsibleTrigger asChild>
+                        <SidebarMenuButton>
+                          <ChevronRight className="transition-transform" />
+                          <Folder />
+                          styles
+                        </SidebarMenuButton>
+                      </CollapsibleTrigger>
+                      <CollapsibleContent>
+                        <SidebarMenuSub>
+                          <SidebarMenuButton>
+                            <File className="size-4" />
+                            globals.css
+                          </SidebarMenuButton>
+                        </SidebarMenuSub>
+                      </CollapsibleContent>
+                    </Collapsible>
+                  </SidebarMenuItem>
+                </SidebarMenu>
+              </div>
+            </TabsContent>
             <TabsContent value="theme" className="m-0 h-full">
               <div className="space-y-4 p-4">
                 <ThemeSelector />
@@ -125,29 +189,6 @@ export function FileSidebar({
                   <div className="text-sm font-medium">Preview</div>
                   <ThemePreview />
                 </div>
-              </div>
-            </TabsContent>
-            <TabsContent value="files" className="m-0 h-full">
-              <div className="px-2 py-4">
-                <SidebarMenu>
-                  {data.changes.map((item) => (
-                    <SidebarMenuItem key={item.file}>
-                      <SidebarMenuButton>
-                        <File className="h-4 w-4" />
-                        {item.file}
-                      </SidebarMenuButton>
-                      <SidebarMenuBadge>{item.state}</SidebarMenuBadge>
-                    </SidebarMenuItem>
-                  ))}
-                </SidebarMenu>
-                <SidebarMenu>
-                  {data.tree.map((item) => (
-                    <Tree
-                      key={Array.isArray(item) ? item[0] : item}
-                      item={item}
-                    />
-                  ))}
-                </SidebarMenu>
               </div>
             </TabsContent>
           </SidebarContent>
@@ -160,14 +201,14 @@ export function FileSidebar({
             className="w-full border-neutral-800"
             onClick={handleDownload}
           >
-            <Download className="mr-2 h-4 w-4" />
+            <Download className="size-4" />
             Download
           </Button>
           <Button
             className="w-full bg-primary hover:bg-primary/90"
             onClick={handleOpenInV0}
           >
-            <ExternalLink className="mr-2 h-4 w-4" />
+            <ExternalLink className="size-4" />
             Open in V0
           </Button>
         </div>

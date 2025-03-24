@@ -18,7 +18,7 @@ export default async function Page() {
       <SidebarProvider defaultOpen={defaultOpen}>
         <AppSidebar variant="inset" />
         <SidebarInset>
-          <SiteHeader />
+          <SiteHeader frameworks={registry.frameworks} />
           <div className="flex flex-1 flex-col container mx-auto p-4 md:p-6">
             <ComponentSelection registry={registry} />
           </div>

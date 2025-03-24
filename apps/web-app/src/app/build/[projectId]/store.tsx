@@ -23,6 +23,7 @@ export interface ColorTheme {
 
 export type ThemeMode = 'light' | 'dark' | 'both'
 export type BorderRadius = '0' | '0.3' | '0.5' | '0.75' | '1'
+export type ItemType = 'component' | 'template'
 
 interface ComponentState {
   selectedComponents: Component[]
@@ -34,6 +35,9 @@ interface ComponentState {
     customSecondaryColor: string
     isUsingCustomColors: boolean
     selectedIconLibrary: string
+    activeItemType: ItemType
+    searchQuery: string
+    activeFramework: string
   }
 }
 
@@ -45,6 +49,9 @@ interface ComponentActions {
   setBorderRadius: (radius: BorderRadius) => void
   setCustomColors: (primary: string, secondary: string) => void
   setIconLibrary: (libraryId: string) => void
+  setActiveItemType: (type: ItemType) => void
+  setSearchQuery: (query: string) => void
+  setActiveFramework: (framework: string) => void
 }
 
 type ComponentStore = ComponentState & ComponentActions
@@ -66,6 +73,9 @@ export const defaultInitState: ComponentState = {
     customSecondaryColor: defaultTheme.secondaryColor,
     isUsingCustomColors: false,
     selectedIconLibrary: 'lucide',
+    activeItemType: 'component',
+    searchQuery: '',
+    activeFramework: 'all',
   },
 }
 
@@ -125,6 +135,27 @@ export const createComponentStore = (
             theme: {
               ...state.theme,
               selectedIconLibrary: libraryId,
+            },
+          })),
+        setActiveItemType: (type) =>
+          set((state) => ({
+            theme: {
+              ...state.theme,
+              activeItemType: type,
+            },
+          })),
+        setSearchQuery: (query) =>
+          set((state) => ({
+            theme: {
+              ...state.theme,
+              searchQuery: query,
+            },
+          })),
+        setActiveFramework: (framework) =>
+          set((state) => ({
+            theme: {
+              ...state.theme,
+              activeFramework: framework,
             },
           })),
       }),
