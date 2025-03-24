@@ -6,7 +6,7 @@
       "~/*": ["./src/*"],
       "registry.json": ["./registry.json"],
       "@acme/ui/*": ["../../packages/ui/src/*"],
-      "@registry/*": ["./registry/*"]
+      "@/registry/*": ["./registry/*"]
     },
     "plugins": [{ "name": "next" }],
     "tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json",

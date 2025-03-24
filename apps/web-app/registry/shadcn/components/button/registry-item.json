@@ -4,12 +4,22 @@
   "title": "Button",
   "description": "A simple button component",
   "categories": ["Feedback"],
-  "dependencies": ["@radix-ui/react-slot", "class-variance-authority"],
+  "dependencies": [
+    "@radix-ui/react-slot",
+    "class-variance-authority",
+    "clsx",
+    "react-twc",
+    "tailwind-merge"
+  ],
   "registryDependencies": [],
   "files": [
     {
       "path": "registry/shadcn/components/button/component.tsx",
       "type": "registry:component"
+    },
+    {
+      "path": "registry/shadcn/lib/utils.ts",
+      "type": "registry:lib"
     }
   ]
 }
