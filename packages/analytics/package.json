@@ -1,14 +1,14 @@
 {
   "dependencies": {
-    "@clerk/chrome-extension": "2.2.19",
-    "@clerk/nextjs": "6.12.8",
-    "@sentry/nextjs": "9.8.0",
+    "@clerk/chrome-extension": "2.2.20",
+    "@clerk/nextjs": "6.12.9",
+    "@sentry/nextjs": "9.9.0",
     "@t3-oss/env-core": "0.12.0",
     "@t3-oss/env-nextjs": "0.12.0",
     "@vercel/analytics": "1.5.0",
     "@vercel/speed-insights": "1.2.0",
     "nextjs-google-analytics": "2.3.7",
-    "posthog-js": "1.232.4",
+    "posthog-js": "1.232.6",
     "posthog-node": "4.10.1",
     "react": "19.0.0",
     "react-dom": "19.0.0",
@@ -16,11 +16,11 @@
   },
   "devDependencies": {
     "@acme/tsconfig": "workspace:*",
-    "@types/aws-lambda": "8.10.147",
+    "@types/aws-lambda": "8.10.148",
     "@types/chrome": "0.0.310",
     "@types/react": "19.0.12",
     "@types/react-dom": "19.0.4",
-    "next": "15.2.3",
+    "next": "15.2.4",
     "typescript": "5.8.2"
   },
   "exports": {
