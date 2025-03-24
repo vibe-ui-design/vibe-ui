@@ -1,5 +1,6 @@
 'use client'
 import { Button } from '@acme/ui/components/button'
+import { toast } from '@acme/ui/components/sonner'
 import { createThemeSelection } from '~/app/actions/theme'
 import { useSelectionStore } from '~/app/build/[projectId]/store'
 
@@ -35,34 +36,58 @@ export function OpenInV0Button() {
   const integrations = useSelectionStore((state) => state.integrations)
   const handleOpenInV0 = async () => {
     try {
+      // Ensure theme config matches schema exactly
+      const themeConfig = {
+        selectedTheme: {
+          id: theme.selectedTheme.id,
+          name: theme.selectedTheme.name,
+          primaryColor: theme.selectedTheme.primaryColor,
+          secondaryColor: theme.selectedTheme.secondaryColor,
+        },
+        selectedMode: theme.selectedMode,
+        borderRadius: theme.borderRadius,
+        customPrimaryColor: theme.customPrimaryColor || undefined,
+        customSecondaryColor: theme.customSecondaryColor || undefined,
+        isUsingCustomColors: theme.isUsingCustomColors,
+        selectedIconLibrary: theme.selectedIconLibrary,
+      }
+
       const themeSelectionId = await createThemeSelection({
         registryItems: selectedRegistryItems,
-        themeConfig: {
-          selectedTheme: theme.selectedTheme,
-          selectedMode: theme.selectedMode,
-          borderRadius: theme.borderRadius,
-          customPrimaryColor: theme.customPrimaryColor,
-          customSecondaryColor: theme.customSecondaryColor,
-          isUsingCustomColors: theme.isUsingCustomColors,
-          selectedIconLibrary: theme.selectedIconLibrary,
+        themeConfig,
+        title: title || 'Vibe UI Theme',
+        prompt: prompt || 'Apply this theme to my design',
+        integrations: {
+          supabase: integrations.supabase || false,
+          clerk: integrations.clerk || false,
+          stripe: integrations.stripe || false,
+          vercel: integrations.vercel || false,
+          planetscale: integrations.planetscale || false,
+          uploadthing: integrations.uploadthing || false,
         },
-        title,
-        prompt,
-        integrations: integrations,
       })
+
+      if (!themeSelectionId) {
+        throw new Error('Failed to create theme selection')
+      }
 
       const baseUrl = new URL('https://v0.dev/chat/api/open')
       const callbackUrl = `${window.location.origin}/api/registry/${themeSelectionId}`
 
       // Add query parameters
       baseUrl.searchParams.set('url', callbackUrl)
-      baseUrl.searchParams.set('title', title)
-      baseUrl.searchParams.set('prompt', prompt)
+      baseUrl.searchParams.set('title', title || 'Vibe UI Theme')
+      baseUrl.searchParams.set(
+        'prompt',
+        prompt || 'Apply this theme to my design',
+      )
 
       // Open v0.dev with all parameters
       window.open(baseUrl.toString(), '_blank')
     } catch (error) {
       console.error('Failed to create theme selection:', error)
+      toast.error('Failed to open in v0.dev')
+      // You might want to show a toast or error message to the user here
     }
   }
 
