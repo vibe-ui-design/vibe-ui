@@ -17,7 +17,7 @@ import { Home as MaterialHome } from '@mui/icons-material'
 import { HomeIcon as RadixHome } from '@radix-ui/react-icons'
 import { Check, Home as LucideHome } from 'lucide-react'
 import { useState } from 'react'
-import { useComponentStore } from '~/app/build/[projectId]/store'
+import { useSelectionStore } from '~/app/build/[projectId]/store'
 import { ColorPicker } from '~/components/color-picker'
 
 export type ColorTheme = {
@@ -119,12 +119,12 @@ const iconLibraries: IconLibrary[] = [
 ]
 
 export function ThemeSelector() {
-  const theme = useComponentStore((state) => state.theme)
-  const setTheme = useComponentStore((state) => state.setTheme)
-  const setThemeMode = useComponentStore((state) => state.setThemeMode)
-  const setBorderRadius = useComponentStore((state) => state.setBorderRadius)
-  const setCustomColors = useComponentStore((state) => state.setCustomColors)
-  const setIconLibrary = useComponentStore((state) => state.setIconLibrary)
+  const theme = useSelectionStore((state) => state.theme)
+  const setTheme = useSelectionStore((state) => state.setTheme)
+  const setThemeMode = useSelectionStore((state) => state.setThemeMode)
+  const setBorderRadius = useSelectionStore((state) => state.setBorderRadius)
+  const setCustomColors = useSelectionStore((state) => state.setCustomColors)
+  const setIconLibrary = useSelectionStore((state) => state.setIconLibrary)
 
   const [primaryColor, setPrimaryColor] = useState(
     theme.selectedTheme.primaryColor,

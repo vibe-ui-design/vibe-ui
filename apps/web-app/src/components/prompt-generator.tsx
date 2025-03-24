@@ -15,10 +15,10 @@ import { ArrowRight, Copy, Loader2, RefreshCw, Sparkles } from 'lucide-react'
 import { useState } from 'react'
 import { generatePrompt } from '~/actions/generate-prompt'
 import { SelectedComponentsList } from '~/components/selected-components-list'
-import { useSelectedComponents } from '~/context/selected-components-context'
+import { useSelectedRegistryItems } from '~/context/selected-components-context'
 
 export function PromptGenerator() {
-  const { selectedComponents } = useSelectedComponents()
+  const { selectedRegistryItems } = useSelectedRegistryItems()
   const [projectDescription, setProjectDescription] = useState('')
   const [generatedPrompt, setGeneratedPrompt] = useState('')
   const [isGenerating, setIsGenerating] = useState(false)
@@ -32,7 +32,7 @@ export function PromptGenerator() {
     try {
       const prompt = await generatePrompt(
         projectDescription,
-        selectedComponents,
+        selectedRegistryItems,
       )
       setGeneratedPrompt(prompt)
       setActiveTab('prompt')
@@ -176,8 +176,8 @@ export function PromptGenerator() {
           </CardContent>
           <CardFooter className="flex justify-between border-t border-neutral-800 pt-4">
             <div className="text-sm text-neutral-400">
-              {selectedComponents.length} component
-              {selectedComponents.length !== 1 ? 's' : ''} selected
+              {selectedRegistryItems.length} component
+              {selectedRegistryItems.length !== 1 ? 's' : ''} selected
             </div>
             <Button
               variant="outline"

@@ -1,5 +1,5 @@
+import { cn } from '@acme/ui/lib/utils'
 import Image from 'next/image'
-import { cn } from '~/lib/utils'
 
 interface BrowserFrameProps {
   url: string

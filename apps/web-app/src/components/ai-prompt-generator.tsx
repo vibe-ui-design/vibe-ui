@@ -5,10 +5,10 @@ import { Textarea } from '@acme/ui/textarea'
 import { Copy, Loader2, Sparkles } from 'lucide-react'
 import { useState } from 'react'
 import { generatePrompt } from '~/actions/generate-prompt'
-import type { ComponentData } from '~/lib/component-data'
+import type { RegistryItem } from 'shadcn/registry'
 
 interface AIPromptGeneratorProps {
-  selectedComponents: ComponentData[]
+  selectedComponents: RegistryItem[]
 }
 
 export function AIPromptGenerator({

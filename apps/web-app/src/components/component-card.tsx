@@ -6,11 +6,11 @@ import { cn } from '@acme/ui/lib/utils'
 import { Check } from 'lucide-react'
 // Import the ComponentPreviewModal
 import { useState } from 'react'
+import type { RegistryItem } from 'shadcn/registry'
 import { ComponentPreviewModal } from '~/components/component-preview-modal'
-import type { ComponentData } from '~/lib/component-data'
 
 interface ComponentCardProps {
-  component: ComponentData
+  component: RegistryItem
   isSelected: boolean
   onToggle: () => void
 }
@@ -54,8 +54,14 @@ export function ComponentCard({
       <div
         className="aspect-video w-full bg-black rounded-md overflow-hidden mb-4 flex items-center justify-center cursor-pointer"
         onClick={() => setPreviewOpen(true)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault()
+            setPreviewOpen(true)
+          }
+        }}
       >
-        {component.preview ? (
+        {/* {component.preview ? (
           <img
             src={component.preview || '/placeholder.svg'}
             alt={component.name}
@@ -63,22 +69,30 @@ export function ComponentCard({
           />
         ) : (
           <div className="text-neutral-600 text-sm">Preview not available</div>
-        )}
+        )} */}
+        <img
+          src={'/placeholder.svg'}
+          alt={component.name}
+          className="w-full h-full object-cover"
+        />
       </div>
 
       <div className="flex items-center justify-between">
         <div className="flex gap-2">
-          <Badge
-            variant="outline"
-            className="bg-neutral-800 text-neutral-300 hover:bg-neutral-700"
-          >
-            {component.category}
-          </Badge>
-          {component.isPro && (
+          {component.categories?.map((category) => (
+            <Badge
+              key={category}
+              variant="outline"
+              className="bg-neutral-800 text-neutral-300 hover:bg-neutral-700"
+            >
+              {category}
+            </Badge>
+          ))}
+          {/* {component.isPro && (
             <Badge className="bg-primary text-white hover:bg-primary/90">
               Pro
             </Badge>
-          )}
+          )} */}
         </div>
         <Button
           variant="ghost"
@@ -91,7 +105,7 @@ export function ComponentCard({
       </div>
 
       <ComponentPreviewModal
-        component={component}
+        registryItem={component}
         open={previewOpen}
         onOpenChange={setPreviewOpen}
       />

@@ -1,22 +1,22 @@
-import { useComponentStore } from '~/app/build/[projectId]/store'
+import { useSelectionStore } from '~/app/build/[projectId]/store'
 import { iconLibraries } from './theme-selector'
 
 export function ThemePreview() {
-  const mode = useComponentStore((state) => state.theme.selectedMode)
-  const borderRadius = useComponentStore((state) => state.theme.borderRadius)
-  const selectedIconLibrary = useComponentStore(
+  const mode = useSelectionStore((state) => state.theme.selectedMode)
+  const borderRadius = useSelectionStore((state) => state.theme.borderRadius)
+  const selectedIconLibrary = useSelectionStore(
     (state) => state.theme.selectedIconLibrary,
   )
-  const isUsingCustomColors = useComponentStore(
+  const isUsingCustomColors = useSelectionStore(
     (state) => state.theme.isUsingCustomColors,
   )
-  const customPrimaryColor = useComponentStore(
+  const customPrimaryColor = useSelectionStore(
     (state) => state.theme.customPrimaryColor,
   )
-  const customSecondaryColor = useComponentStore(
+  const customSecondaryColor = useSelectionStore(
     (state) => state.theme.customSecondaryColor,
   )
-  const selectedTheme = useComponentStore((state) => state.theme.selectedTheme)
+  const selectedTheme = useSelectionStore((state) => state.theme.selectedTheme)
 
   // Convert border radius value to rem
   const getBorderRadiusStyle = (value: typeof borderRadius) => {

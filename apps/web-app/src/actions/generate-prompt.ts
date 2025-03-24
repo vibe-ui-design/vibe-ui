@@ -1,25 +1,27 @@
 'use server'
-
-import type { ComponentData } from '~/lib/component-data'
 import { openai } from '@ai-sdk/openai'
 import { generateText } from 'ai'
+import type { RegistryItem } from 'shadcn/registry'
 import type {
+  BorderRadius,
   ColorTheme,
   ThemeMode,
-  BorderRadius,
 } from '~/components/theme-selector'
 
 export async function generatePrompt(
   projectDescription: string,
-  selectedComponents: ComponentData[],
+  selectedRegistryItems: RegistryItem[],
   theme?: ColorTheme,
   mode?: ThemeMode,
   borderRadius?: BorderRadius,
 ): Promise<string> {
   try {
     // Format the selected components for the prompt
-    const componentsList = selectedComponents
-      .map((component) => `- ${component.name} (${component.category})`)
+    const componentsList = selectedRegistryItems
+      .map(
+        (component) =>
+          `- ${component.name} (${component.categories?.[0] ?? 'uncategorized'})`,
+      )
       .join('\n')
 
     // Create theme information if provided

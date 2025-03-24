@@ -12,26 +12,27 @@ import { Separator } from '@acme/ui/separator'
 import { SidebarTrigger } from '@acme/ui/sidebar'
 import { Tabs, TabsList, TabsTrigger } from '@acme/ui/tabs'
 import { Search } from 'lucide-react'
-import { type ItemType, useComponentStore } from '../store'
+import type { Registry } from 'shadcn/registry'
+import { type ItemType, useSelectionStore } from '../store'
 
 interface SiteHeaderProps {
-  frameworks: string[]
+  registries: Registry[]
 }
 
-export function SiteHeader({ frameworks }: SiteHeaderProps) {
-  const activeItemType = useComponentStore(
+export function SiteHeader({ registries }: SiteHeaderProps) {
+  const activeItemType = useSelectionStore(
     (state) => state.theme.activeItemType,
   )
-  const setActiveItemType = useComponentStore(
+  const setActiveItemType = useSelectionStore(
     (state) => state.setActiveItemType,
   )
-  const searchQuery = useComponentStore((state) => state.theme.searchQuery)
-  const setSearchQuery = useComponentStore((state) => state.setSearchQuery)
-  const activeFramework = useComponentStore(
+  const searchQuery = useSelectionStore((state) => state.theme.searchQuery)
+  const setSearchQuery = useSelectionStore((state) => state.setSearchQuery)
+  const activeFramework = useSelectionStore(
     (state) => state.theme.activeFramework,
   )
-  const setActiveFramework = useComponentStore(
-    (state) => state.setActiveFramework,
+  const setActiveFramework = useSelectionStore(
+    (state) => state.setActiveRegistry,
   )
 
   return (
@@ -57,9 +58,9 @@ export function SiteHeader({ frameworks }: SiteHeaderProps) {
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">All Frameworks</SelectItem>
-            {frameworks.map((framework) => (
-              <SelectItem key={framework} value={framework}>
-                {framework}
+            {registries.map((registry) => (
+              <SelectItem key={registry.name} value={registry.name}>
+                {registry.name}
               </SelectItem>
             ))}
           </SelectContent>

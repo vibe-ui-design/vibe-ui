@@ -38,6 +38,7 @@
     "react-icons": "5.5.0",
     "shadcn": "2.4.0-canary.17",
     "sharp": "0.33.5",
+    "stripe": "17.7.0",
     "superjson": "2.2.2",
     "svix": "1.62.0",
     "yargs": "17.7.2",
@@ -68,7 +69,7 @@
   "scripts": {
     "build": "pnpm with-env next build",
     "clean": "git clean -xdf .next .turbo node_modules dist",
-    "dev": "pnpm with-env next dev",
+    "dev": "pnpm with-env next dev --turbo",
     "postbuild": "next-sitemap --config next-sitemap.config.cjs",
     "prebuild": "pnpm registry:gen",
     "registry:build": "shadcn build",

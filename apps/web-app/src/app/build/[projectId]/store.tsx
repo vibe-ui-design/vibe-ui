@@ -1,18 +1,10 @@
 'use client'
 
 import { type ReactNode, createContext, useContext, useRef } from 'react'
+import type { RegistryItem, registryItemTypeSchema } from 'shadcn/registry'
+import type { z } from 'zod'
 import { createStore, useStore } from 'zustand'
 import { persist } from 'zustand/middleware'
-
-interface Component {
-  id: string
-  name: string
-  description: string
-  category: string
-  framework?: string
-  preview?: string
-  itemType: 'component' | 'template'
-}
 
 export interface ColorTheme {
   id: string
@@ -23,10 +15,10 @@ export interface ColorTheme {
 
 export type ThemeMode = 'light' | 'dark' | 'both'
 export type BorderRadius = '0' | '0.3' | '0.5' | '0.75' | '1'
-export type ItemType = 'component' | 'template'
+export type ItemType = z.infer<typeof registryItemTypeSchema>
 
-interface ComponentState {
-  selectedComponents: Component[]
+interface SelectionState {
+  selectedRegistryItems: RegistryItem[]
   theme: {
     selectedTheme: ColorTheme
     selectedMode: ThemeMode
@@ -42,7 +34,7 @@ interface ComponentState {
 }
 
 interface ComponentActions {
-  toggleComponent: (component: Component) => void
+  toggleRegistryItem: (registryItem: RegistryItem) => void
   clearSelection: () => void
   setTheme: (theme: ColorTheme) => void
   setThemeMode: (mode: ThemeMode) => void
@@ -51,10 +43,10 @@ interface ComponentActions {
   setIconLibrary: (libraryId: string) => void
   setActiveItemType: (type: ItemType) => void
   setSearchQuery: (query: string) => void
-  setActiveFramework: (framework: string) => void
+  setActiveRegistry: (registryName: string) => void
 }
 
-type ComponentStore = ComponentState & ComponentActions
+type SelectionStore = SelectionState & ComponentActions
 
 const defaultTheme = {
   id: 'violet',
@@ -63,8 +55,8 @@ const defaultTheme = {
   secondaryColor: '#C4B5FD',
 }
 
-export const defaultInitState: ComponentState = {
-  selectedComponents: [],
+export const defaultInitState: SelectionState = {
+  selectedRegistryItems: [],
   theme: {
     selectedTheme: defaultTheme,
     selectedMode: 'dark',
@@ -73,30 +65,32 @@ export const defaultInitState: ComponentState = {
     customSecondaryColor: defaultTheme.secondaryColor,
     isUsingCustomColors: false,
     selectedIconLibrary: 'lucide',
-    activeItemType: 'component',
+    activeItemType: 'registry:component',
     searchQuery: '',
     activeFramework: 'all',
   },
 }
 
-export const createComponentStore = (
-  initState: ComponentState = defaultInitState,
+export const createSelectionStore = (
+  initState: SelectionState = defaultInitState,
 ) => {
-  return createStore<ComponentStore>()(
+  return createStore<SelectionStore>()(
     persist(
       (set) => ({
         ...initState,
-        selectedComponents: initState.selectedComponents,
+        selectedRegistryItems: initState.selectedRegistryItems,
         theme: initState.theme,
-        toggleComponent: (component) =>
+        toggleRegistryItem: (component) =>
           set((state) => ({
-            selectedComponents: state.selectedComponents.some(
-              (c) => c.id === component.id,
+            selectedRegistryItems: state.selectedRegistryItems.some(
+              (c) => c.name === component.name,
             )
-              ? state.selectedComponents.filter((c) => c.id !== component.id)
-              : [...state.selectedComponents, component],
+              ? state.selectedRegistryItems.filter(
+                  (c) => c.name !== component.name,
+                )
+              : [...state.selectedRegistryItems, component],
           })),
-        clearSelection: () => set({ selectedComponents: [] }),
+        clearSelection: () => set({ selectedRegistryItems: [] }),
         setTheme: (theme) =>
           set((state) => ({
             theme: {
@@ -151,7 +145,7 @@ export const createComponentStore = (
               searchQuery: query,
             },
           })),
-        setActiveFramework: (framework) =>
+        setActiveRegistry: (framework) =>
           set((state) => ({
             theme: {
               ...state.theme,
@@ -162,7 +156,7 @@ export const createComponentStore = (
       {
         name: 'vibe-ui-storage',
         partialize: (state) => ({
-          selectedComponents: state.selectedComponents,
+          selectedComponents: state.selectedRegistryItems,
           theme: state.theme,
         }),
       },
@@ -170,41 +164,41 @@ export const createComponentStore = (
   )
 }
 
-export type ComponentStoreApi = ReturnType<typeof createComponentStore>
+export type SelectionStoreApi = ReturnType<typeof createSelectionStore>
 
-const ComponentStoreContext = createContext<ComponentStoreApi | undefined>(
+const SelectionStoreContext = createContext<SelectionStoreApi | undefined>(
   undefined,
 )
 
-export interface ComponentStoreProviderProps {
+export interface SelectionStoreProviderProps {
   children: ReactNode
 }
 
-export function ComponentStoreProvider({
+export function SelectionStoreProvider({
   children,
-}: ComponentStoreProviderProps) {
-  const storeRef = useRef<ComponentStoreApi | null>(null)
+}: SelectionStoreProviderProps) {
+  const storeRef = useRef<SelectionStoreApi | null>(null)
   if (storeRef.current === null) {
-    storeRef.current = createComponentStore()
+    storeRef.current = createSelectionStore()
   }
 
   return (
-    <ComponentStoreContext.Provider value={storeRef.current}>
+    <SelectionStoreContext.Provider value={storeRef.current}>
       {children}
-    </ComponentStoreContext.Provider>
+    </SelectionStoreContext.Provider>
   )
 }
 
-export const useComponentStore = <T,>(
-  selector: (store: ComponentStore) => T,
+export const useSelectionStore = <T,>(
+  selector: (store: SelectionStore) => T,
 ): T => {
-  const componentStoreContext = useContext(ComponentStoreContext)
+  const selectionStoreContext = useContext(SelectionStoreContext)
 
-  if (!componentStoreContext) {
+  if (!selectionStoreContext) {
     throw new Error(
-      'useComponentStore must be used within ComponentStoreProvider',
+      'useSelectionStore must be used within SelectionStoreProvider',
     )
   }
 
-  return useStore(componentStoreContext, selector)
+  return useStore(selectionStoreContext, selector)
 }

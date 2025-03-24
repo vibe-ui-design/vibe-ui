@@ -4,27 +4,27 @@ import { ComponentSelection } from '~/app/build/[projectId]/_components/componen
 import { AppSidebar } from './_components/app-sidebar'
 import { FileSidebar } from './_components/file-sidebar'
 import { SiteHeader } from './_components/header'
-import { loadRegistry } from './actions'
-import { ComponentStoreProvider } from './store'
+import { loadRegistries } from './actions'
+import { SelectionStoreProvider } from './store'
 
 export default async function Page() {
   const cookieStore = await cookies()
   const defaultOpen = cookieStore.get('sidebar:state')?.value === 'true'
 
-  const registry = await loadRegistry()
+  const registries = await loadRegistries()
 
   return (
-    <ComponentStoreProvider>
+    <SelectionStoreProvider>
       <SidebarProvider defaultOpen={defaultOpen}>
         <AppSidebar variant="inset" />
         <SidebarInset>
-          <SiteHeader frameworks={registry.frameworks} />
+          <SiteHeader registries={registries} />
           <div className="flex flex-1 flex-col container mx-auto p-4 md:p-6">
-            <ComponentSelection registry={registry} />
+            <ComponentSelection registries={registries} />
           </div>
         </SidebarInset>
         <FileSidebar variant="inset" />
       </SidebarProvider>
-    </ComponentStoreProvider>
+    </SelectionStoreProvider>
   )
 }

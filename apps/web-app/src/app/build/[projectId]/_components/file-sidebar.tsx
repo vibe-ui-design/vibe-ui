@@ -1,12 +1,5 @@
 'use client'
-import {
-  ChevronRight,
-  Download,
-  ExternalLink,
-  File,
-  Folder,
-  X,
-} from 'lucide-react'
+import { ChevronRight, Download, File, Folder, X } from 'lucide-react'
 import type * as React from 'react'
 
 import { Button } from '@acme/ui/button'
@@ -26,9 +19,10 @@ import {
   SidebarMenuSub,
 } from '@acme/ui/sidebar'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@acme/ui/tabs'
+import { OpenInV0Button } from '~/components/open-in-v0-button'
 import { ThemePreview } from '~/components/theme-preview'
 import { ThemeSelector } from '~/components/theme-selector'
-import { useComponentStore } from '../store'
+import { useSelectionStore } from '../store'
 
 // This is sample data.
 type FileTreeDirectory = [string, ...(string | FileTreeDirectory)[]]
@@ -40,10 +34,10 @@ export function FileSidebar({
 }: React.ComponentProps<typeof Sidebar> & {
   onClose?: () => void
 }) {
-  const selectedComponents = useComponentStore(
-    (state) => state.selectedComponents,
+  const selectedComponents = useSelectionStore(
+    (state) => state.selectedRegistryItems,
   )
-  const toggleComponent = useComponentStore((state) => state.toggleComponent)
+  const toggleComponent = useSelectionStore((state) => state.toggleRegistryItem)
 
   if (selectedComponents.length === 0) {
     return null
@@ -129,7 +123,7 @@ export function FileSidebar({
                                 <SidebarMenuSub>
                                   {selectedComponents.map((component) => (
                                     <div
-                                      key={component.id}
+                                      key={component.name}
                                       className="group/file flex items-center gap-2"
                                     >
                                       <SidebarMenuButton className="flex-1 data-[active=true]:bg-transparent">
@@ -196,21 +190,11 @@ export function FileSidebar({
       </Tabs>
       <SidebarFooter>
         <div className="grid grid-cols-2 gap-2">
-          <Button
-            variant="outline"
-            className="w-full border-neutral-800"
-            onClick={handleDownload}
-          >
+          <Button variant="outline" className="w-full" onClick={handleDownload}>
             <Download className="size-4" />
             Download
           </Button>
-          <Button
-            className="w-full bg-primary hover:bg-primary/90"
-            onClick={handleOpenInV0}
-          >
-            <ExternalLink className="size-4" />
-            Open in V0
-          </Button>
+          <OpenInV0Button />
         </div>
       </SidebarFooter>
     </Sidebar>

@@ -11,26 +11,26 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@acme/ui/tabs'
 import { Check, Copy, X } from 'lucide-react'
 import { useState } from 'react'
-import type { ComponentData } from '~/lib/component-data'
+import type { RegistryItem } from 'shadcn/registry'
 
 interface ComponentPreviewModalProps {
-  component: ComponentData | null
+  registryItem: RegistryItem | null
   open: boolean
   onOpenChange: (open: boolean) => void
 }
 
 export function ComponentPreviewModal({
-  component,
+  registryItem,
   open,
   onOpenChange,
 }: ComponentPreviewModalProps) {
   const [activeTab, setActiveTab] = useState('preview')
   const [copied, setCopied] = useState(false)
 
-  if (!component) return null
+  if (!registryItem) return null
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(getComponentCode(component))
+    navigator.clipboard.writeText(getComponentCode(registryItem))
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
   }
@@ -40,7 +40,7 @@ export function ComponentPreviewModal({
       <DialogContent className="sm:max-w-[800px] bg-neutral-900 border-neutral-800 text-white p-0">
         <DialogHeader className="p-6 border-b border-neutral-800">
           <div className="flex items-center justify-between">
-            <DialogTitle className="text-xl">{component.name}</DialogTitle>
+            <DialogTitle className="text-xl">{registryItem.name}</DialogTitle>
             <Button
               variant="ghost"
               size="icon"
@@ -51,7 +51,7 @@ export function ComponentPreviewModal({
             </Button>
           </div>
           <DialogDescription className="text-neutral-400">
-            {component.description}
+            {registryItem.description}
           </DialogDescription>
         </DialogHeader>
 
@@ -91,24 +91,29 @@ export function ComponentPreviewModal({
 
           <TabsContent value="preview" className="mt-0">
             <div className="rounded-lg border border-neutral-800 bg-black p-6 flex items-center justify-center min-h-[300px]">
-              {component.preview ? (
+              {/* {registryItem.preview ? (
                 <img
-                  src={component.preview || '/placeholder.svg'}
-                  alt={component.name}
+                  src={registryItem.preview || '/placeholder.svg'}
+                  alt={registryItem.name}
                   className="max-w-full max-h-[300px] object-contain"
                 />
               ) : (
                 <div className="text-neutral-600 text-sm">
                   Preview not available
                 </div>
-              )}
+              )} */}
+              <img
+                src={'/placeholder.svg'}
+                alt={registryItem.name}
+                className="max-w-full max-h-[300px] object-contain"
+              />
             </div>
           </TabsContent>
 
           <TabsContent value="code" className="mt-0">
             <div className="rounded-lg border border-neutral-800 bg-black p-4 overflow-auto">
               <pre className="text-sm text-neutral-400">
-                <code>{getComponentCode(component)}</code>
+                <code>{getComponentCode(registryItem)}</code>
               </pre>
             </div>
           </TabsContent>
@@ -118,18 +123,18 @@ export function ComponentPreviewModal({
               <h3 className="text-lg font-medium mb-4">Installation</h3>
               <div className="bg-neutral-900 rounded-md p-3 mb-6">
                 <pre className="text-sm text-neutral-400">
-                  <code>{`npm install @vibeui/${component.id}`}</code>
+                  <code>{`npm install @vibeui/${registryItem.name}`}</code>
                 </pre>
               </div>
 
               <h3 className="text-lg font-medium mb-4">Usage</h3>
               <div className="bg-neutral-900 rounded-md p-3">
                 <pre className="text-sm text-neutral-400">
-                  <code>{`import { ${component.name} } from '@vibeui/${component.id}'
+                  <code>{`import { ${registryItem.name} } from '@vibeui/${registryItem.name}'
 
 export default function MyComponent() {
   return (
-    <${component.name} />
+    <${registryItem.name} />
   )
 }`}</code>
                 </pre>
@@ -143,8 +148,8 @@ export default function MyComponent() {
 }
 
 // Helper function to generate sample code for a component
-function getComponentCode(component: ComponentData): string {
-  switch (component.id) {
+function getComponentCode(registryItem: RegistryItem): string {
+  switch (registryItem.name) {
     case 'button':
       return `import { Button } from "@acme/ui/button"
 
@@ -178,13 +183,13 @@ export function CardDemo() {
     </Card>
   )`
     default:
-      return `import { ${component.name} } from "@acme/ui/${component.id}"
+      return `import { ${registryItem.name} } from "@acme/ui/${registryItem.name}"
 
-export function ${component.name}Demo() {
+export function ${registryItem.name}Demo() {
   return (
-    <${component.name}>
-      // ${component.name} content
-    </${component.name}>
+    <${registryItem.name}>
+      // ${registryItem.name} content
+    </${registryItem.name}>
   )
 }`
   }

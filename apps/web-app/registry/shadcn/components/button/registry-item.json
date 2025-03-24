@@ -3,10 +3,11 @@
   "type": "registry:component",
   "title": "Button",
   "description": "A simple button component",
+  "categories": ["Feedback"],
   "registryDependencies": [],
   "files": [
     {
-      "path": "registry/button/component.tsx",
+      "path": "registry/shadcn/components/button/component.tsx",
       "type": "registry:component"
     }
   ]

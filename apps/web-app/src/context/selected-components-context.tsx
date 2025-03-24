@@ -1,19 +1,20 @@
 'use client'
 
 import { createContext, useContext } from 'react'
-import type { ComponentData } from '~/lib/component-data'
+import type { RegistryItem } from 'shadcn/registry'
 
-interface SelectedComponentsContextType {
-  selectedComponents: ComponentData[]
-  toggleComponent: (component: ComponentData) => void
+interface SelectedRegistryItemsContextType {
+  selectedRegistryItems: RegistryItem[]
+  toggleRegistryItem: (registryItem: RegistryItem) => void
   clearSelection: () => void
 }
 
-export const SelectedComponentsContext =
-  createContext<SelectedComponentsContextType>({
-    selectedComponents: [],
-    toggleComponent: () => {},
+export const SelectedRegistryItemsContext =
+  createContext<SelectedRegistryItemsContextType>({
+    selectedRegistryItems: [],
+    toggleRegistryItem: () => {},
     clearSelection: () => {},
   })
 
-export const useSelectedComponents = () => useContext(SelectedComponentsContext)
+export const useSelectedRegistryItems = () =>
+  useContext(SelectedRegistryItemsContext)

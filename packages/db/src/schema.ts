@@ -1,6 +1,7 @@
 import { relations } from 'drizzle-orm'
 import {
   boolean,
+  json,
   pgEnum,
   pgTable,
   text,
@@ -11,13 +12,15 @@ import {
 import { createInsertSchema } from 'drizzle-zod'
 import { z } from 'zod'
 
+import { type RegistryItem, registryItemSchema } from 'shadcn/registry'
+
 import { createId } from '@acme/id'
 
 export const userRoleEnum = pgEnum('userRole', ['admin', 'superAdmin', 'user'])
 
 export const UserRoleType = z.enum(userRoleEnum.enumValues).Enum
 
-export const Users = pgTable('user', {
+export const Users = pgTable('users', {
   avatarUrl: text('avatarUrl'),
   clerkId: text('clerkId').unique(),
   createdAt: timestamp('createdAt').defaultNow().notNull(),
@@ -96,7 +99,7 @@ export const OrgsRelations = relations(Orgs, ({ one, many }) => ({
 
 // Company Members Table
 export const OrgMembers = pgTable(
-  'orgMembers',
+  'org_members',
   {
     createdAt: timestamp('createdAt', {
       mode: 'date',
@@ -167,3 +170,54 @@ export const ShortUrl = pgTable('short_url', {
     withTimezone: true,
   }).$onUpdateFn(() => new Date()),
 })
+
+export const themeConfigSchema = z.object({
+  selectedTheme: z.object({
+    id: z.string(),
+    name: z.string(),
+    primaryColor: z.string(),
+    secondaryColor: z.string(),
+  }),
+  selectedMode: z.enum(['light', 'dark', 'both']),
+  borderRadius: z.enum(['0', '0.3', '0.5', '0.75', '1']),
+  customPrimaryColor: z.string().optional(),
+  customSecondaryColor: z.string().optional(),
+  isUsingCustomColors: z.boolean(),
+  selectedIconLibrary: z.string(),
+})
+
+export const themeSelectionSchema = z.object({
+  registryItems: z.array(registryItemSchema),
+  themeConfig: themeConfigSchema,
+})
+
+export type ThemeConfig = z.infer<typeof themeConfigSchema>
+
+export const ThemeSelections = pgTable('theme_selections', {
+  id: varchar('id', { length: 128 })
+    .$defaultFn(() => createId({ prefix: 'theme' }))
+    .notNull()
+    .primaryKey(),
+  registryItems: json('registryItems').$type<RegistryItem[]>().notNull(),
+  themeConfig: json('themeConfig').$type<ThemeConfig>().notNull(),
+  createdByUserId: varchar('createdByUserId').references(() => Users.id, {
+    onDelete: 'cascade',
+  }),
+  // .notNull(),
+  createdAt: timestamp('createdAt', {
+    mode: 'date',
+    withTimezone: true,
+  })
+    .defaultNow()
+    .notNull(),
+  updatedAt: timestamp('updatedAt', {
+    mode: 'date',
+    withTimezone: true,
+  }).$onUpdateFn(() => new Date()),
+  expiresAt: timestamp('expiresAt', {
+    mode: 'date',
+    withTimezone: true,
+  }).notNull(), // We'll set this to 24 hours from creation
+})
+
+export type ThemeSelectionsType = typeof ThemeSelections.$inferSelect

@@ -1,10 +1,10 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import type { ComponentData } from '~/lib/component-data'
+import type { RegistryItem } from 'shadcn/registry'
 
 export function useComponentSelection() {
-  const [selectedComponents, setSelectedComponents] = useState<ComponentData[]>(
+  const [selectedComponents, setSelectedComponents] = useState<RegistryItem[]>(
     [],
   )
 
@@ -29,14 +29,13 @@ export function useComponentSelection() {
     )
   }, [selectedComponents])
 
-  const toggleComponent = (component: ComponentData) => {
+  const toggleComponent = (component: RegistryItem) => {
     setSelectedComponents((prev) => {
-      const isSelected = prev.some((c) => c.id === component.id)
+      const isSelected = prev.some((c) => c.name === component.name)
       if (isSelected) {
-        return prev.filter((c) => c.id !== component.id)
-      } else {
-        return [...prev, component]
+        return prev.filter((c) => c.name !== component.name)
       }
+      return [...prev, component]
     })
   }
 

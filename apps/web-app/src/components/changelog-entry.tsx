@@ -1,5 +1,5 @@
+import { cn } from '@acme/ui/lib/utils'
 import type React from 'react'
-import { cn } from '~/lib/utils'
 
 interface ChangelogEntryProps {
   version: string

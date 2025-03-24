@@ -3,32 +3,11 @@
 import { promises as fs } from 'node:fs'
 import path from 'node:path'
 import { cache } from 'react'
-
-export interface RegistryFile {
-  path: string
-  type: string
-}
-
-export type RegistryItemType = 'component' | 'template'
-
-export interface RegistryItem {
-  name: string
-  type: string
-  title: string
-  description: string
-  categories?: string[]
-  registryDependencies: string[]
-  files: RegistryFile[]
-  framework: string
-  itemType: RegistryItemType
-}
-
-export interface Registry {
-  name: string
-  description: string
-  frameworks: string[]
-  items: RegistryItem[]
-}
+import type { Registry, RegistryItem } from 'shadcn/registry'
+import {
+  loadRegistryFiles,
+  loadRegistryItemForPath,
+} from '~/lib/registry-utils'
 
 async function getFrameworkDirectories(
   registryPath: string,
@@ -52,76 +31,50 @@ async function getItemDirectories(
   }
 }
 
-async function loadRegistryItem(
-  frameworkName: string,
-  itemPath: string,
-  itemType: RegistryItemType,
-): Promise<RegistryItem | null> {
-  try {
-    const registryItemPath = path.join(itemPath, 'registry-item.ts')
-    const registryItemJsonPath = path.join(itemPath, 'registry-item.json')
+async function loadRegistryItemsForType(
+  frameworkPath: string,
+  itemType: 'components' | 'templates',
+): Promise<RegistryItem[]> {
+  const items: RegistryItem[] = []
+  const dirs = await getItemDirectories(frameworkPath, itemType)
 
-    let item: Omit<RegistryItem, 'framework' | 'itemType'> | null = null
-
-    if (await fs.stat(registryItemPath).catch(() => null)) {
-      // For TypeScript registry items
-      const { registryItem } = await import(registryItemPath)
-      item = registryItem
-    } else if (await fs.stat(registryItemJsonPath).catch(() => null)) {
-      // For JSON registry items
-      const content = await fs.readFile(registryItemJsonPath, 'utf-8')
-      item = JSON.parse(content)
-    }
-
+  for (const dir of dirs) {
+    const itemPath = path.join(frameworkPath, itemType, dir)
+    const registryItemFilePath = path.join(itemPath, 'registry-item.json')
+    const item = await loadRegistryItemForPath(registryItemFilePath)
     if (item) {
-      return {
+      const filesWithContent = await loadRegistryFiles(item)
+      items.push({
         ...item,
-        framework: frameworkName,
-        itemType,
-      }
+        files: filesWithContent,
+      })
     }
-
-    return null
-  } catch (error) {
-    console.warn(`Error loading registry item from ${itemPath}:`, error)
-    return null
   }
+
+  return items
 }
 
-export const loadRegistry = cache(async (): Promise<Registry> => {
+export const loadRegistries = cache(async (): Promise<Registry[]> => {
   const registryBasePath = path.join(process.cwd(), 'registry')
   const frameworks = await getFrameworkDirectories(registryBasePath)
-  const items: RegistryItem[] = []
+  const registries: Registry[] = []
 
   for (const framework of frameworks) {
     const frameworkPath = path.join(registryBasePath, framework)
 
-    // Load components
-    const componentDirs = await getItemDirectories(frameworkPath, 'components')
-    for (const componentDir of componentDirs) {
-      const componentPath = path.join(frameworkPath, 'components', componentDir)
-      const item = await loadRegistryItem(framework, componentPath, 'component')
-      if (item) {
-        items.push(item)
-      }
-    }
+    // Load both components and templates
+    const items = [
+      ...(await loadRegistryItemsForType(frameworkPath, 'components')),
+      ...(await loadRegistryItemsForType(frameworkPath, 'templates')),
+    ]
 
-    // Load templates
-    const templateDirs = await getItemDirectories(frameworkPath, 'templates')
-    for (const templateDir of templateDirs) {
-      const templatePath = path.join(frameworkPath, 'templates', templateDir)
-      const item = await loadRegistryItem(framework, templatePath, 'template')
-      if (item) {
-        items.push(item)
-      }
-    }
+    // Create registry for this framework
+    registries.push({
+      name: framework,
+      homepage: `https://vibeui.dev/registry/${framework}`,
+      items,
+    })
   }
 
-  return {
-    name: 'vibe-ui',
-    description:
-      'A collection of UI components and templates for building modern applications',
-    frameworks,
-    items,
-  }
+  return registries
 })
